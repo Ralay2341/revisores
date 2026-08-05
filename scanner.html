@@ -573,21 +573,9 @@
       </div>
     </div>
 
-    <!-- Paso 3: Lote (opcional) -->
+    <!-- Paso 3: Escaneo de código de barras -->
     <div class="card">
-      <div class="section-label"><i class="ti ti-tag" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 3 — Últimos 5 caracteres del LOTE <span style="font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0;">(opcional)</span></div>
-      <div class="lote-row">
-        <div class="lote-input-wrap">
-          <input type="text" id="loteInput" maxlength="5" placeholder="_ _ _ _ _"
-            oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" />
-          <div class="lote-hint">Alfanumérico — déjalo vacío si no aplica</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Paso 4: Escaneo de código de barras -->
-    <div class="card">
-      <div class="section-label"><i class="ti ti-barcode" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 4 — Escanea el código de barras del producto</div>
+      <div class="section-label"><i class="ti ti-barcode" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 3 — Escanea el código de barras del producto</div>
 
       <div id="scanIdle">
         <i class="ti ti-scan scan-icn"></i>
@@ -630,6 +618,17 @@
   <div id="step2" style="display:none;">
 
     <div id="productoCard"></div>
+
+    <div class="card">
+      <div class="section-label"><i class="ti ti-tag" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 4 — Últimos 5 caracteres del LOTE <span style="font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0;">(opcional)</span></div>
+      <div class="lote-row">
+        <div class="lote-input-wrap">
+          <input type="text" id="loteInput" maxlength="5" placeholder="_ _ _ _ _"
+            oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" />
+          <div class="lote-hint">Alfanumérico — déjalo vacío si no aplica</div>
+        </div>
+      </div>
+    </div>
 
     <div class="card">
       <div class="section-label"><i class="ti ti-calculator" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 5 — Cantidad contabilizada</div>
@@ -1020,8 +1019,7 @@
     document.getElementById('step2').style.display = '';
     cantStr = '0';
     document.getElementById('cantDisplay').textContent = '0';
-
-    var lote = document.getElementById('loteInput').value.trim();
+    document.getElementById('loteInput').value = '';
 
     document.getElementById('productoCard').innerHTML =
       '<div class="producto-card">' +
@@ -1031,7 +1029,6 @@
       '<span><i class="ti ti-barcode" style="font-size:13px"></i>' + rowData.ean + '</span>' +
       '<span><i class="ti ti-calendar" style="font-size:13px"></i>' + rowData.fecha + '</span>' +
       '<span><i class="ti ti-list-numbers" style="font-size:13px"></i>Consol. ' + rowData.consolidado + '</span>' +
-      (lote ? '<span style="background:#f0eafb;color:#5b21b6;font-weight:600;padding:2px 8px;border-radius:20px;"><i class="ti ti-tag" style="font-size:11px;vertical-align:-1px"></i> Lote: ' + lote + '</span>' : '') +
       '</div></div>';
 
     document.getElementById('statusBadges').innerHTML =
@@ -1229,6 +1226,7 @@
     document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
     var eanInput = document.getElementById('eanInput');
     if (eanInput) eanInput.value = '';
+    document.getElementById('loteInput').value = '';
     document.getElementById('buscarStatus').innerHTML = '';
     document.getElementById('step2').style.display    = 'none';
     document.getElementById('step1').style.display    = '';
