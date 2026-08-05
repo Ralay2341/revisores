@@ -887,11 +887,23 @@
           Html5QrcodeSupportedFormats.UPC_E,
           Html5QrcodeSupportedFormats.CODE_128
         ],
+        experimentalFeatures: {
+          useBarCodeDetectorIfSupported: true
+        },
         verbose: false
       });
     }
 
-    var config = { fps: 10, qrbox: { width: 260, height: 140 }, aspectRatio: 1.4 };
+    var config = {
+      fps: 20,
+      qrbox: { width: 280, height: 140 },
+      aspectRatio: 1.4,
+      videoConstraints: {
+        facingMode: 'environment',
+        width: { ideal: 960 },
+        height: { ideal: 540 }
+      }
+    };
 
     scannerBusy = false;
     html5QrCode.start({ facingMode: 'environment' }, config, onCodigoDetectado, function () {/* frame sin código, ignorar */})
