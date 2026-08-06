@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -88,17 +89,19 @@
       background: #a32d2d;
       color: #fff;
       border: none;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: var(--radius-sm);
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      transition: opacity 0.15s;
     }
+    .btn-salir:active { opacity: 0.8; }
 
-    /* ── Card ── */
+    /* ── Card General ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -187,7 +190,7 @@
       text-align: center;
     }
 
-    /* ── Toast Éxito ── */
+    /* ── Toast de Éxito Flotante ── */
     .toast-exito {
       background: var(--green-light);
       border: 1px solid #9fe1cb;
@@ -260,7 +263,7 @@
       font-size: 13px; font-weight: 600; color: var(--text2); pointer-events: none; z-index: 1;
     }
 
-    /* ── Modal Alerta ── */
+    /* ── Modal Alerta para Diferencias ── */
     .alerta-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       display: flex; align-items: center; justify-content: center; z-index: 300; padding: 16px;
@@ -278,16 +281,16 @@
 
 <div class="app">
 
-  <!-- Header -->
+  <!-- Header Superior -->
   <div class="header">
     <div class="header-icon"><i class="ti ti-clipboard-check"></i></div>
     <div>
       <div class="header-title">Revisión de Inventario — ALM9037</div>
-      <div class="header-sub">Propiedad de Raúl Layseca B.</div>
+      <div class="header-sub">Propiedad de Raúl Layseca B. (Ley 17.336)</div>
     </div>
   </div>
 
-  <!-- BARRA DE SESIÓN ACTIVA -->
+  <!-- BARRA DE SESIÓN ACTIVA (Con Botón SALIR) -->
   <div class="session-bar" id="sessionBar" style="display:none;">
     <div class="session-info">
       <span class="session-tag" id="sTagRev">Rev: -</span>
@@ -299,7 +302,7 @@
     </button>
   </div>
 
-  <!-- VISTA 1: CONFIGURACIÓN DE INICIO (Solo al entrar o presionar SALIR) -->
+  <!-- VISTA 1: CONFIGURACIÓN DE INICIO (Muestra Selección de Revisor, Fecha y Consolidado) -->
   <div id="viewSetup">
     <div class="card">
       <div class="section-label">Paso 1 — Selecciona tu número de revisor</div>
@@ -336,13 +339,13 @@
     </div>
   </div>
 
-  <!-- VISTA 2: TRABAJO CONTINUO (Escaneo y Grabación) -->
+  <!-- VISTA 2: TRABAJO CONTINUO (Escaneo, Conteo y Grabación) -->
   <div id="viewWork" style="display:none;">
 
-    <!-- Banner con último ítem grabado (si existe) -->
+    <!-- Toast con último producto grabado -->
     <div id="toastLastSaved" style="display:none;"></div>
 
-    <!-- SUB-SECCIÓN A: ESCÁNER / BÚSQUEDA -->
+    <!-- SECCIÓN A: ESCÁNER / BÚSQUEDA -->
     <div id="secScan" class="card">
       <div class="section-label">Escanea el código del producto</div>
       
@@ -360,7 +363,7 @@
       <div id="buscarStatus"></div>
     </div>
 
-    <!-- SUB-SECCIÓN B: REGISTRO DE CANTIDAD Y LOTE -->
+    <!-- SECCIÓN B: REGISTRO DE CANTIDAD Y LOTE -->
     <div id="secProduct" class="card" style="display:none;">
       <div id="productoCard"></div>
 
@@ -403,7 +406,7 @@
 
 </div>
 
-<!-- Modal Alerta para diferencias -->
+<!-- Modal Alerta para diferencias de stock -->
 <div class="alerta-overlay" id="alertaOverlay" style="display:none;">
   <div class="alerta-modal">
     <div style="font-size:32px;color:#c97a00;margin-bottom:6px;"><i class="ti ti-alert-triangle"></i></div>
@@ -465,7 +468,7 @@
     document.getElementById('btnIniciarSesion').disabled = !(revisor && consolidado && fecha);
   }
 
-  /* ── INICIAR SESIÓN Y MANTENERLA BLOQUEADA ── */
+  /* ── INICIAR SESIÓN DE TRABAJO ── */
   function iniciarSesionWork() {
     fetch(APPS_SCRIPT_URL + '?accion=bloquearRev&revisor=' + revisor)
       .then(function(r) { return r.json(); })
@@ -490,7 +493,7 @@
       });
   }
 
-  /* ── SALIR DE LA SESIÓN ── */
+  /* ── CERRAR SESIÓN Y LIBERAR REVISOR (BOTÓN SALIR) ── */
   function cerrarSesionWork() {
     if (!confirm('¿Seguro que deseas salir? Se liberará el Revisor ' + revisor + '.')) return;
 
@@ -512,7 +515,7 @@
     });
   }
 
-  /* ── CONTROL DE CÁMARA ── */
+  /* ── ACTIVACIÓN Y DETENCIÓN SEGUIRA DE CÁMARA ── */
   function activarEscanerContinuo() {
     document.getElementById('secScan').style.display = '';
     document.getElementById('secProduct').style.display = 'none';
@@ -527,7 +530,7 @@
         var ean5 = (decoded || '').replace(/\D/g, '').slice(-5);
         if (ean5.length === 5) buscarEAN(ean5);
       }).catch(function() {
-        document.getElementById('buscarStatus').innerHTML = '<div style="font-size:12px;color:var(--amber);margin-top:6px;">Cámara no disponible. Usa ingreso manual.</div>';
+        document.getElementById('buscarStatus').innerHTML = '<div style="font-size:12px;color:var(--amber);margin-top:6px;">Cámara no disponible. Usa el ingreso manual.</div>';
       });
     });
   }
@@ -596,7 +599,7 @@
     document.getElementById('cantDisplay').textContent = parseInt(cantStr, 10).toLocaleString('es-CL');
   }
 
-  /* ── SLIDE DE CONFIRMACIÓN ── */
+  /* ── CONTROL DEL DESLIZADOR ── */
   var slideActive = false, slideStartX = 0, slideMaxX = 0;
 
   function initSlide() {
@@ -682,13 +685,13 @@
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(res) {
-        // Mostrar Toast de éxito arriba
+        // Notificación de éxito
         var toast = document.getElementById('toastLastSaved');
         toast.className = 'toast-exito';
         toast.style.display = 'flex';
         toast.innerHTML = '<i class="ti ti-check" style="font-size:18px"></i> <div><strong>¡Grabado con éxito!</strong><br>' + rowData.producto + ' (' + cant + ' unids)</div>';
 
-        // Volver directamente al escáner mantenido en sesión activa
+        // Regreso inmediato al escáner
         activarEscanerContinuo();
       })
       .catch(function() {
