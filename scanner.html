@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -68,21 +67,6 @@
     .header-icon i { font-size: 22px; color: #7ec8e3; }
     .header-title { font-size: 15px; font-weight: 600; color: #fff; }
     .header-sub   { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
-
-    /* ── Config notice ── */
-    .config-notice {
-      background: var(--amber-light);
-      border: 1px solid #e9b96e;
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      font-size: 12px;
-      color: var(--amber);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-    .config-notice i { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
 
     /* ── Card ── */
     .card {
@@ -174,7 +158,7 @@
     .con-btn:hover { border-color: var(--green); color: var(--green); }
     .con-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
 
-    /* ── EAN row (usado en respaldo manual) ── */
+    /* ── EAN row ── */
     .ean-row { display: flex; gap: 10px; align-items: flex-end; }
     .ean-input-wrap { flex: 1; position: relative; }
     .ean-input-wrap input {
@@ -206,7 +190,7 @@
     .btn-buscar:disabled { opacity: 0.4; cursor: default; }
     .btn-buscar:not(:disabled):hover { opacity: 0.88; }
 
-    /* ── Escáner de cámara ── */
+    /* ── Escáner ── */
     #scanIdle { text-align: center; padding: 18px 8px 6px; }
     #scanIdle .scan-icn {
       font-size: 34px; color: var(--text3); display: block; margin-bottom: 8px;
@@ -232,7 +216,7 @@
       cursor: pointer; text-decoration: underline; padding: 0;
     }
 
-    /* ── Producto encontrado ── */
+    /* ── Producto ── */
     .producto-card {
       background: var(--green-light);
       border: 1px solid #9fe1cb;
@@ -266,7 +250,7 @@
       color: var(--red);
     }
 
-    /* ── Status badges ── */
+    /* ── Badges ── */
     .status-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
     .badge {
       display: inline-flex;
@@ -315,7 +299,7 @@
     .num-btn.del { font-size: 13px; color: var(--text2); }
     .num-btn.cero { grid-column: span 2; }
 
-    /* ── Slide to confirm (estilo iOS) ── */
+    /* ── Slide ── */
     .slide-container { margin-top: 4px; }
     .slide-label-top {
       font-size: 11px;
@@ -432,9 +416,7 @@
     .btn-outline { border: 1px solid var(--border2); background: #fff; color: var(--text); }
     .btn-primary { border: none; background: var(--navy); color: #fff; }
 
-
-
-    /* ── Modal alerta diferencia ── */
+    /* ── Modal alerta ── */
     .alerta-overlay {
       position: fixed;
       inset: 0;
@@ -490,20 +472,16 @@
       color: #fff; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 7px;
     }
-    .btn-alerta-corregir:hover  { background: var(--border); }
-    .btn-alerta-confirmar:hover { background: #b36c00; }
 
     .rev-btn.bloqueado {
       opacity: 0.35;
       cursor: not-allowed;
       border-style: dashed;
     }
-    .rev-btn.bloqueado:hover { border-color: var(--border); color: var(--text2); }
     .rev-aviso {
       font-size: 11px; color: var(--amber); margin-top: 8px;
       display: flex; align-items: center; gap: 5px;
     }
-    /* Lote input */
     .lote-row { display: flex; gap: 10px; align-items: flex-end; }
     .lote-input-wrap { flex: 1; }
     .lote-input-wrap input {
@@ -515,7 +493,6 @@
       text-transform: uppercase;
     }
     .lote-hint { font-size: 11px; color: var(--text3); text-align: center; margin-top: 5px; }
-    .badge-lote { background: #f0eafb; color: #5b21b6; }
 
     @media (max-width: 360px) {
       .revisor-grid { grid-template-columns: repeat(3, 1fr); }
@@ -525,7 +502,6 @@
 </head>
 <body>
 
-<!-- ══════════ APP ══════════ -->
 <div class="app">
 
   <!-- Header -->
@@ -538,9 +514,8 @@
     </div>
   </div>
 
-  <!-- PASO 1: Revisor -->
+  <!-- PASO 1 -->
   <div id="step1">
-
     <div class="card">
       <div class="section-label"><i class="ti ti-user" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 1 — Selecciona tu número de revisor</div>
       <div class="revisor-grid" id="revisorGrid">
@@ -556,7 +531,6 @@
       </div>
     </div>
 
-    <!-- Fecha + Consolidado -->
     <div class="card">
       <div class="section-label"><i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 2 — Fecha y consolidado a revisar</div>
       <div class="grid-2">
@@ -575,7 +549,6 @@
       </div>
     </div>
 
-    <!-- Paso 3: Escaneo de código de barras -->
     <div class="card">
       <div class="section-label"><i class="ti ti-barcode" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 3 — Escanea el código de barras del producto</div>
 
@@ -613,12 +586,10 @@
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /step1 -->
-
-  <!-- PASO 2: Cantidad + Slide -->
+  <!-- PASO 2 -->
   <div id="step2" style="display:none;">
-
     <div id="productoCard"></div>
 
     <div class="card">
@@ -666,37 +637,43 @@
     <button onclick="volverBuscar()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:4px 0;display:flex;align-items:center;gap:5px;margin-bottom:8px;">
       <i class="ti ti-arrow-left" style="font-size:14px"></i>Escanear otro producto
     </button>
+  </div>
 
-  </div><!-- /step2 -->
-
-  <!-- PASO 3: Éxito -->
+  <!-- PASO 3 -->
   <div id="step3" style="display:none;"></div>
 
-</div><!-- /app -->
+</div>
 
-<!-- Librería de escaneo de códigos de barras (usa la cámara del dispositivo) -->
+<!-- Modal Alerta -->
+<div class="alerta-overlay" id="alertaOverlay" style="display:none;">
+  <div class="alerta-modal">
+    <div class="alerta-icon"><i class="ti ti-alert-triangle"></i></div>
+    <div class="alerta-titulo">⚠ Verificar Cantidad…</div>
+    <div class="alerta-sub">La cantidad ingresada <strong>no coincide</strong> con lo registrado en el sistema.<br>Por favor verifica tu conteo antes de confirmar.</div>
+    <div class="alerta-btns">
+      <button class="btn-alerta-corregir" onclick="cerrarAlerta()">
+        <i class="ti ti-edit" style="font-size:16px"></i>Corregir cantidad
+      </button>
+      <button class="btn-alerta-confirmar" onclick="grabarDeFuerza()">
+        <i class="ti ti-check" style="font-size:16px"></i>Confirmar y grabar igual
+      </button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 <script>
-  /* ── URL Apps Script ── */
   var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIeRhUh9qSHaPTeTHlzRn8mMnUcz_U2A2eB5TIBFMvAHK7A0YZYmmyAu0mOWD7K-piww/exec';
 
-  /* ── Estado ── */
   var revisor = null, consolidado = null, rowData = null, cantStr = '0';
-  var revisoresOcupados = []; // array con los números bloqueados en Sheets
+  var revisoresOcupados = []; 
 
-  /* ── Estado del escáner de cámara ── */
   var html5QrCode = null;
-  var scannerRunning = false;   // true mientras la cámara está activa y "escuchando"
-  var scannerBusy = false;      // true mientras se procesa/consulta un código ya leído
-  var scannerStarting = false;  // true mientras la cámara está iniciando (evita doble clic)
+  var scannerRunning = false;
+  var scannerBusy = false;
+  var scannerStarting = false;
 
-  /* ══════════════════════════════════════════
-     BLOQUEO DE REVISOR — compartido via Sheets
-     Cada dispositivo guarda su revisor en
-     localStorage SOLO para recordar cuál tomó.
-     La lista de bloqueados viene del servidor.
-  ══════════════════════════════════════════ */
   var LLAVE_REV = 'alm9037_mi_revisor';
 
   function getMiRevisor() {
@@ -712,7 +689,6 @@
     localStorage.removeItem(LLAVE_REV);
   }
 
-  /* Pinta los botones según lista de bloqueados recibida del servidor */
   function pintarBotonesRevisor(ocupados, miRev) {
     for (var i = 1; i <= 6; i++) {
       var btn = document.getElementById('rbtn' + i);
@@ -739,7 +715,6 @@
     }
   }
 
-  /* Consulta al servidor qué revisores están ocupados */
   function cargarEstadoRevisores(callback) {
     fetch(APPS_SCRIPT_URL + '?accion=estadoRevisores')
       .then(function(r) { return r.json(); })
@@ -753,7 +728,6 @@
       });
   }
 
-  /* ── Init ── */
   window.addEventListener('DOMContentLoaded', function () {
     var hoy  = new Date();
     var dd   = String(hoy.getDate()).padStart(2, '0');
@@ -764,13 +738,11 @@
     var miRev = getMiRevisor();
     if (miRev) revisor = miRev;
 
-    // Mostrar estado mientras carga
     for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
     document.getElementById('revAviso').style.display = 'flex';
     document.getElementById('revAvisoTxt').textContent = 'Consultando disponibilidad…';
 
     if (!miRev) {
-      // Sin sesión local → limpiar todos los bloqueos del servidor (inicio o recarga limpia)
       fetch(APPS_SCRIPT_URL + '?accion=resetRevisores')
         .then(function(r) { return r.json(); })
         .then(function(res) {
@@ -783,7 +755,6 @@
           checkReady();
         });
     } else {
-      // Tengo sesión → solo consultar estado actual
       cargarEstadoRevisores(function(ocupados) {
         pintarBotonesRevisor(ocupados, miRev);
         checkReady();
@@ -791,22 +762,15 @@
     }
   });
 
-  /* Liberar la cámara si el usuario cierra o recarga la pestaña */
   window.addEventListener('beforeunload', function () {
-    if (html5QrCode && scannerRunning) {
-      try { html5QrCode.stop(); } catch (e) {}
-    }
+    pararCamaraCompleta();
   });
 
-  /* ── Selección revisor ── */
   function selRev(n) {
-    // Si ya tengo revisor asignado y es diferente, ignorar
     var miRev = getMiRevisor();
     if (miRev && miRev !== n) return;
-    // Si ya está ocupado por otro, ignorar
     if (revisoresOcupados.indexOf(n) !== -1 && miRev !== n) return;
 
-    // Bloquear visualmente mientras se registra
     for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
 
     fetch(APPS_SCRIPT_URL + '?accion=bloquearRev&revisor=' + n)
@@ -819,7 +783,6 @@
           pintarBotonesRevisor(revisoresOcupados, n);
           checkReady();
         } else {
-          // Ya fue tomado por otro en ese instante
           revisoresOcupados = res.ocupados || [];
           pintarBotonesRevisor(revisoresOcupados, getMiRevisor());
           alert('El Revisor ' + n + ' acaba de ser tomado por otra persona. Elige otro.');
@@ -831,7 +794,6 @@
       });
   }
 
-  /* ── Selección consolidado ── */
   function selCon(n) {
     consolidado = n;
     document.querySelectorAll('.con-btn').forEach(function (b, i) {
@@ -840,7 +802,6 @@
     checkReady();
   }
 
-  /* ── Habilitar cámara / botón manual ── */
   function checkReady() {
     var fecha = document.getElementById('fechaInput').value;
     var ok    = !!(revisor && consolidado && fecha);
@@ -862,21 +823,10 @@
     }
   }
 
-  /* ── Formato fecha: YYYY-MM-DD → DD/MM/YYYY ── */
   function fmt(dateStr) {
     var p = dateStr.split('-');
     return p[2] + '/' + p[1] + '/' + p[0];
   }
-
-  /* ══════════════════════════════════════════
-     ESCÁNER DE CÓDIGO DE BARRAS (CÁMARA)
-     Nota: cada intento de escaneo usa una instancia
-     NUEVA de Html5Qrcode y la cámara se detiene por
-     completo antes de reiniciar. Reutilizar la misma
-     instancia con pause()/resume() puede dejar el
-     stream de video en un estado inconsistente en
-     algunos celulares y bloquear el siguiente escaneo.
-  ══════════════════════════════════════════ */
 
   function crearInstanciaEscaner() {
     return new Html5Qrcode('qr-reader', {
@@ -887,32 +837,44 @@
         Html5QrcodeSupportedFormats.UPC_E,
         Html5QrcodeSupportedFormats.CODE_128
       ],
-      experimentalFeatures: {
-        useBarCodeDetectorIfSupported: true
-      },
+      experimentalFeatures: { useBarCodeDetectorIfSupported: true },
       verbose: false
     });
   }
 
-  /* Detiene y libera por completo la instancia actual de la cámara (si existe) */
+  /* Detención segura con temporizador de fallback para evitar que la app se quede pegada */
   function pararCamaraCompleta(callback) {
-    if (!html5QrCode) { callback(); return; }
+    if (!html5QrCode) { if (callback) callback(); return; }
     var instanciaVieja = html5QrCode;
     html5QrCode = null;
     scannerRunning = false;
+    scannerBusy = false;
+    scannerStarting = false;
+
+    var ejecutado = false;
+    function fin() {
+      if (!ejecutado) {
+        ejecutado = true;
+        if (callback) callback();
+      }
+    }
+
+    var t = setTimeout(fin, 600); // 600ms máximo de espera
+
     try {
       instanciaVieja.stop()
-        .then(function () { try { instanciaVieja.clear(); } catch (e) {} callback(); })
-        .catch(function ()  { try { instanciaVieja.clear(); } catch (e) {} callback(); });
+        .then(function () { clearTimeout(t); try { instanciaVieja.clear(); } catch (e) {} fin(); })
+        .catch(function ()  { clearTimeout(t); try { instanciaVieja.clear(); } catch (e) {} fin(); });
     } catch (e) {
-      callback();
+      clearTimeout(t);
+      fin();
     }
   }
 
   function iniciarEscaneo() {
     var fecha = document.getElementById('fechaInput').value;
     if (!revisor || !consolidado || !fecha) return;
-    if (scannerStarting) return; // evita doble clic mientras inicia
+    if (scannerStarting) return;
 
     scannerStarting = true;
     document.getElementById('btnScan').disabled = true;
@@ -920,23 +882,17 @@
     document.getElementById('scanIdle').style.display = 'none';
     document.getElementById('scanActive').style.display = '';
 
-    // Por seguridad, siempre partimos liberando cualquier instancia previa
     pararCamaraCompleta(function () {
       html5QrCode = crearInstanciaEscaner();
-
       var config = {
         fps: 20,
         qrbox: { width: 280, height: 140 },
         aspectRatio: 1.4,
-        videoConstraints: {
-          facingMode: 'environment',
-          width: { ideal: 960 },
-          height: { ideal: 540 }
-        }
+        videoConstraints: { facingMode: 'environment', width: { ideal: 960 }, height: { ideal: 540 } }
       };
 
       scannerBusy = false;
-      html5QrCode.start({ facingMode: 'environment' }, config, onCodigoDetectado, function () {/* frame sin código, ignorar */})
+      html5QrCode.start({ facingMode: 'environment' }, config, onCodigoDetectado, function () {})
         .then(function () {
           scannerRunning = true;
           scannerStarting = false;
@@ -947,7 +903,7 @@
           document.getElementById('btnScan').disabled = false;
           document.getElementById('buscarStatus').innerHTML =
             '<div class="error-card"><i class="ti ti-camera-off" style="font-size:18px;flex-shrink:0"></i>' +
-            '<span>No se pudo acceder a la cámara. Revisa los permisos del navegador o usa el ingreso manual.</span></div>';
+            '<span>No se pudo acceder a la cámara. Usa el ingreso manual.</span></div>';
           cerrarVistaEscaner();
         });
     });
@@ -962,41 +918,28 @@
     scannerBusy = false;
     scannerStarting = false;
     document.getElementById('btnScan').disabled = false;
-    pararCamaraCompleta(function () {});
+    pararCamaraCompleta();
     document.getElementById('scanActive').style.display = 'none';
     document.getElementById('scanIdle').style.display = '';
   }
 
-  /* Vuelve a la vista de "listo para escanear" mostrando un mensaje de error,
-     liberando la cámara si estaba activa. Sirve tanto para fallos de escaneo
-     como de búsqueda manual. */
   function manejarBusquedaFallida(mensajeHtml) {
-    var estabaEscaneando = document.getElementById('scanActive').style.display !== 'none';
     document.getElementById('buscarStatus').innerHTML = mensajeHtml;
-    scannerBusy = false;
-    if (estabaEscaneando) {
-      pararCamaraCompleta(function () {});
-      document.getElementById('scanActive').style.display = 'none';
-      document.getElementById('scanIdle').style.display = '';
-    }
+    cerrarVistaEscaner();
   }
 
-  /* Se dispara cada vez que la cámara detecta un código legible */
   function onCodigoDetectado(decodedText) {
-    if (scannerBusy) return; // evita disparos múltiples del mismo código
+    if (scannerBusy) return;
     scannerBusy = true;
 
     var soloDigitos = (decodedText || '').replace(/\D/g, '');
     var ean5 = soloDigitos.slice(-5);
 
-    // Detenemos la cámara de inmediato al detectar algo, antes de procesar
     pararCamaraCompleta(function () {
       if (ean5.length < 5) {
-        document.getElementById('scanActive').style.display = 'none';
-        document.getElementById('scanIdle').style.display = '';
         manejarBusquedaFallida(
           '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
-          '<span>Código leído no es válido. Presiona "Iniciar escáner" y vuelve a intentar.</span></div>'
+          '<span>Código leído inválido. Vuelve a escanear.</span></div>'
         );
         return;
       }
@@ -1004,7 +947,6 @@
     });
   }
 
-  /* ── Mostrar / ocultar ingreso manual de respaldo ── */
   function toggleManual() {
     var box = document.getElementById('manualBox');
     var visible = box.style.display !== 'none';
@@ -1015,7 +957,6 @@
     checkReady();
   }
 
-  /* ── Buscar producto (por escaneo o por ingreso manual de respaldo) ── */
   function buscarEAN(ean5) {
     ean5 = (ean5 || '').trim();
     var fecha = document.getElementById('fechaInput').value;
@@ -1030,7 +971,6 @@
     }
 
     st.innerHTML = '<div class="loading-row"><div class="spinner"></div>Consultando hoja CONSOLIDADO…</div>';
-
     var btnManual = document.getElementById('btnBuscarManual');
     if (btnManual) btnManual.disabled = true;
 
@@ -1044,33 +984,28 @@
       .then(function (r) { return r.json(); })
       .then(function (result) {
         if (btnManual) btnManual.disabled = false;
-        if (!result.encontrado) {
+        if (!result || !result.encontrado) {
           manejarBusquedaFallida(
-            '<div class="error-card">' +
-            '<i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
-            '<span>Sin coincidencia para ese código. Verifica fecha, consolidado, y vuelve a escanear.</span></div>'
+            '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
+            '<span>Sin coincidencia para ese código. Verifica fecha y consolidado.</span></div>'
           );
           return;
         }
         rowData = result;
         st.innerHTML = '';
-        scannerBusy = false;
-        document.getElementById('scanActive').style.display = 'none';
-        document.getElementById('scanIdle').style.display = '';
+        cerrarVistaEscaner();
         mostrarPaso2();
       })
       .catch(function (e) {
         if (btnManual) btnManual.disabled = false;
         console.error(e);
         manejarBusquedaFallida(
-          '<div class="error-card">' +
-          '<i class="ti ti-wifi-off" style="font-size:18px;flex-shrink:0"></i>' +
-          '<span>Error de conexión. Verifica tu acceso a internet.</span></div>'
+          '<div class="error-card"><i class="ti ti-wifi-off" style="font-size:18px;flex-shrink:0"></i>' +
+          '<span>Error de conexión. Verifica tu red.</span></div>'
         );
       });
   }
 
-  /* ── Mostrar paso 2 (cantidad) ── */
   function mostrarPaso2() {
     document.getElementById('step1').style.display = 'none';
     document.getElementById('step2').style.display = '';
@@ -1096,7 +1031,6 @@
     initSlide();
   }
 
-  /* ── Numpad ── */
   function numPad(v) {
     if (v === 'del') {
       cantStr = cantStr.length > 1 ? cantStr.slice(0, -1) : '0';
@@ -1108,16 +1042,14 @@
       parseInt(cantStr, 10).toLocaleString('es-CL');
   }
 
-  /* ── Slide ── */
   var slideActive = false, slideStartX = 0, slideMaxX = 0;
 
-  function initSlide() {
-    // Clonar para eliminar listeners anteriores correctamente
-    var wrap    = document.getElementById('slideWrap');
-    var parent  = wrap.parentNode;
-    var nuevo   = wrap.cloneNode(true);
+  function initSlide(preservarEstado) {
+    var wrap = document.getElementById('slideWrap');
+    var parent = wrap.parentNode;
+    var nuevo = wrap.cloneNode(true);
     parent.replaceChild(nuevo, wrap);
-    wrap = document.getElementById('slideWrap'); // re-obtener referencia
+    wrap = document.getElementById('slideWrap');
 
     wrap.classList.remove('done');
     document.getElementById('slideTrack').style.width = '0%';
@@ -1126,7 +1058,10 @@
     document.getElementById('slideText').className    = 'slide-text';
     document.getElementById('slideIcon').className    = 'ti ti-chevrons-right';
     document.getElementById('slideIcon').style.color  = 'var(--navy)';
-    document.getElementById('grabarStatus').innerHTML = '';
+    
+    if (!preservarEstado) {
+      document.getElementById('grabarStatus').innerHTML = '';
+    }
 
     wrap.addEventListener('mousedown',  onSlideStart);
     wrap.addEventListener('touchstart', onSlideStart, { passive: true });
@@ -1173,7 +1108,6 @@
     }
   }
 
-  /* ── Confirmar (compara col H) ── */
   function confirmarGrabado() {
     var cant = parseInt(cantStr, 10);
     if (cant === 0) {
@@ -1224,24 +1158,29 @@
       .then(function (r) { return r.json(); })
       .then(function (res) {
         st.innerHTML = '';
-        if (res.ok) {
+        // Validación flexible del resultado
+        var exito = res && (res.ok === true || res.success === true || res.status === 'ok' || res.status === 'success' || res.grabado === true);
+        
+        if (exito) {
           mostrarExito(cant, lote);
         } else {
-          st.innerHTML = '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i><span>Error al grabar: ' + (res.error || 'desconocido') + '</span></div>';
+          st.innerHTML = '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i><span>Error al grabar: ' + (res ? (res.error || res.mensaje || 'Error desconocido') : 'Respuesta nula') + '</span></div>';
           wrap.classList.remove('done');
-          initSlide();
+          initSlide(true); // Preserva el mensaje de error
         }
       })
       .catch(function (err) {
         st.innerHTML = '<div class="error-card"><i class="ti ti-wifi-off" style="font-size:18px;flex-shrink:0"></i><span>Error de conexión al grabar.</span></div>';
         console.error(err);
         wrap.classList.remove('done');
-        initSlide();
+        initSlide(true); // Preserva el mensaje de error
       });
   }
 
-  /* ── Pantalla de éxito ── */
   function mostrarExito(cant, lote) {
+    // Garantiza ocultar overlays que pudieran bloquear la pantalla
+    document.getElementById('alertaOverlay').style.display = 'none';
+
     var cantSistema = parseInt(rowData.cantSistema, 10);
     var hayDif = !isNaN(cantSistema) && cant !== cantSistema;
     var difTexto = hayDif
@@ -1275,64 +1214,73 @@
       '</div></div>';
   }
 
-  /* ── Volver a buscar (mantiene revisor/fecha/consolidado/lote) ── */
   function volverBuscar() {
-    rowData = null; cantStr = '0';
-    cerrarVistaEscaner();
-    document.getElementById('manualBox').style.display = 'none';
-    document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
-    var eanInput = document.getElementById('eanInput');
-    if (eanInput) eanInput.value = '';
-    document.getElementById('loteInput').value = '';
-    document.getElementById('buscarStatus').innerHTML = '';
-    document.getElementById('step2').style.display    = 'none';
-    document.getElementById('step1').style.display    = '';
-    checkReady();
+    otroEAN();
   }
 
-  /* ── Otro producto (mantiene revisor/fecha/consolidado, limpia lote) ── */
   function otroEAN() {
-    rowData = null; cantStr = '0';
+    rowData = null;
+    cantStr = '0';
+    scannerBusy = false;
+
+    document.getElementById('alertaOverlay').style.display = 'none';
     cerrarVistaEscaner();
+
     document.getElementById('manualBox').style.display = 'none';
     document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
+    
     var eanInput = document.getElementById('eanInput');
     if (eanInput) eanInput.value = '';
+    
     document.getElementById('loteInput').value        = '';
     document.getElementById('buscarStatus').innerHTML = '';
-    document.getElementById('step3').style.display    = 'none';
-    document.getElementById('step1').style.display    = '';
+    document.getElementById('grabarStatus').innerHTML = '';
+
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step1').style.display = '';
     checkReady();
   }
 
-  /* ── Reset completo → libera revisor en servidor ── */
   function resetApp() {
     var miRev = getMiRevisor();
     olvidarMiRevisor();
+    
+    rowData = null;
+    cantStr = '0';
+    revisor = null;
+    consolidado = null;
+    scannerBusy = false;
+
+    document.getElementById('alertaOverlay').style.display = 'none';
     cerrarVistaEscaner();
-    revisor = null; consolidado = null; rowData = null; cantStr = '0';
+
     document.querySelectorAll('.con-btn').forEach(function (b) { b.classList.remove('active'); });
-    document.getElementById('fechaInput').value       = '';
+    
     var eanInput = document.getElementById('eanInput');
     if (eanInput) eanInput.value = '';
+    
     document.getElementById('manualBox').style.display = 'none';
     document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
     document.getElementById('loteInput').value        = '';
     document.getElementById('buscarStatus').innerHTML = '';
-    document.getElementById('step1').style.display    = '';
-    document.getElementById('step2').style.display    = 'none';
-    document.getElementById('step3').style.display    = 'none';
+    document.getElementById('grabarStatus').innerHTML = '';
+
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step1').style.display = '';
+
     var hoy = new Date();
     document.getElementById('fechaInput').value =
       hoy.getFullYear() + '-' +
       String(hoy.getMonth()+1).padStart(2,'0') + '-' +
       String(hoy.getDate()).padStart(2,'0');
 
-    // Liberar en servidor si tenía uno asignado
     if (miRev) {
       for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
       document.getElementById('revAviso').style.display = 'flex';
       document.getElementById('revAvisoTxt').textContent = 'Liberando revisor…';
+      
       fetch(APPS_SCRIPT_URL + '?accion=liberarRev&revisor=' + miRev)
         .then(function(r) { return r.json(); })
         .then(function(res) {
@@ -1352,22 +1300,5 @@
     }
   }
 </script>
-<!-- ══════════ MODAL ALERTA DIFERENCIA ══════════ -->
-<div class="alerta-overlay" id="alertaOverlay" style="display:none;">
-  <div class="alerta-modal">
-    <div class="alerta-icon"><i class="ti ti-alert-triangle"></i></div>
-    <div class="alerta-titulo">⚠ Verificar Cantidad…</div>
-    <div class="alerta-sub">La cantidad ingresada <strong>no coincide</strong> con lo registrado en el sistema.<br>Por favor verifica tu conteo antes de confirmar.</div>
-    <div class="alerta-btns">
-      <button class="btn-alerta-corregir" onclick="cerrarAlerta()">
-        <i class="ti ti-edit" style="font-size:16px"></i>Corregir cantidad
-      </button>
-      <button class="btn-alerta-confirmar" onclick="grabarDeFuerza()">
-        <i class="ti ti-check" style="font-size:16px"></i>Confirmar y grabar igual
-      </button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
