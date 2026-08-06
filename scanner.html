@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -688,6 +689,7 @@
   var html5QrCode = null;
   var scannerRunning = false;   // true mientras la cámara está activa y "escuchando"
   var scannerBusy = false;      // true mientras se procesa/consulta un código ya leído
+  var scannerStarting = false;  // true mientras la cámara está iniciando (evita doble clic)
 
   /* ══════════════════════════════════════════
      BLOQUEO DE REVISOR — compartido via Sheets
@@ -868,54 +870,87 @@
 
   /* ══════════════════════════════════════════
      ESCÁNER DE CÓDIGO DE BARRAS (CÁMARA)
+     Nota: cada intento de escaneo usa una instancia
+     NUEVA de Html5Qrcode y la cámara se detiene por
+     completo antes de reiniciar. Reutilizar la misma
+     instancia con pause()/resume() puede dejar el
+     stream de video en un estado inconsistente en
+     algunos celulares y bloquear el siguiente escaneo.
   ══════════════════════════════════════════ */
+
+  function crearInstanciaEscaner() {
+    return new Html5Qrcode('qr-reader', {
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.CODE_128
+      ],
+      experimentalFeatures: {
+        useBarCodeDetectorIfSupported: true
+      },
+      verbose: false
+    });
+  }
+
+  /* Detiene y libera por completo la instancia actual de la cámara (si existe) */
+  function pararCamaraCompleta(callback) {
+    if (!html5QrCode) { callback(); return; }
+    var instanciaVieja = html5QrCode;
+    html5QrCode = null;
+    scannerRunning = false;
+    try {
+      instanciaVieja.stop()
+        .then(function () { try { instanciaVieja.clear(); } catch (e) {} callback(); })
+        .catch(function ()  { try { instanciaVieja.clear(); } catch (e) {} callback(); });
+    } catch (e) {
+      callback();
+    }
+  }
 
   function iniciarEscaneo() {
     var fecha = document.getElementById('fechaInput').value;
     if (!revisor || !consolidado || !fecha) return;
+    if (scannerStarting) return; // evita doble clic mientras inicia
 
+    scannerStarting = true;
+    document.getElementById('btnScan').disabled = true;
     document.getElementById('buscarStatus').innerHTML = '';
     document.getElementById('scanIdle').style.display = 'none';
     document.getElementById('scanActive').style.display = '';
 
-    if (!html5QrCode) {
-      html5QrCode = new Html5Qrcode('qr-reader', {
-        formatsToSupport: [
-          Html5QrcodeSupportedFormats.EAN_13,
-          Html5QrcodeSupportedFormats.EAN_8,
-          Html5QrcodeSupportedFormats.UPC_A,
-          Html5QrcodeSupportedFormats.UPC_E,
-          Html5QrcodeSupportedFormats.CODE_128
-        ],
-        experimentalFeatures: {
-          useBarCodeDetectorIfSupported: true
-        },
-        verbose: false
-      });
-    }
+    // Por seguridad, siempre partimos liberando cualquier instancia previa
+    pararCamaraCompleta(function () {
+      html5QrCode = crearInstanciaEscaner();
 
-    var config = {
-      fps: 20,
-      qrbox: { width: 280, height: 140 },
-      aspectRatio: 1.4,
-      videoConstraints: {
-        facingMode: 'environment',
-        width: { ideal: 960 },
-        height: { ideal: 540 }
-      }
-    };
+      var config = {
+        fps: 20,
+        qrbox: { width: 280, height: 140 },
+        aspectRatio: 1.4,
+        videoConstraints: {
+          facingMode: 'environment',
+          width: { ideal: 960 },
+          height: { ideal: 540 }
+        }
+      };
 
-    scannerBusy = false;
-    html5QrCode.start({ facingMode: 'environment' }, config, onCodigoDetectado, function () {/* frame sin código, ignorar */})
-      .then(function () {
-        scannerRunning = true;
-      })
-      .catch(function () {
-        document.getElementById('buscarStatus').innerHTML =
-          '<div class="error-card"><i class="ti ti-camera-off" style="font-size:18px;flex-shrink:0"></i>' +
-          '<span>No se pudo acceder a la cámara. Revisa los permisos del navegador o usa el ingreso manual.</span></div>';
-        cerrarVistaEscaner();
-      });
+      scannerBusy = false;
+      html5QrCode.start({ facingMode: 'environment' }, config, onCodigoDetectado, function () {/* frame sin código, ignorar */})
+        .then(function () {
+          scannerRunning = true;
+          scannerStarting = false;
+          document.getElementById('btnScan').disabled = false;
+        })
+        .catch(function () {
+          scannerStarting = false;
+          document.getElementById('btnScan').disabled = false;
+          document.getElementById('buscarStatus').innerHTML =
+            '<div class="error-card"><i class="ti ti-camera-off" style="font-size:18px;flex-shrink:0"></i>' +
+            '<span>No se pudo acceder a la cámara. Revisa los permisos del navegador o usa el ingreso manual.</span></div>';
+          cerrarVistaEscaner();
+        });
+    });
   }
 
   function detenerEscaneo() {
@@ -925,41 +960,48 @@
   function cerrarVistaEscaner() {
     scannerRunning = false;
     scannerBusy = false;
-    if (html5QrCode) {
-      html5QrCode.stop().then(function () {
-        try { html5QrCode.clear(); } catch (e) {}
-      }).catch(function () {});
-    }
+    scannerStarting = false;
+    document.getElementById('btnScan').disabled = false;
+    pararCamaraCompleta(function () {});
     document.getElementById('scanActive').style.display = 'none';
     document.getElementById('scanIdle').style.display = '';
+  }
+
+  /* Vuelve a la vista de "listo para escanear" mostrando un mensaje de error,
+     liberando la cámara si estaba activa. Sirve tanto para fallos de escaneo
+     como de búsqueda manual. */
+  function manejarBusquedaFallida(mensajeHtml) {
+    var estabaEscaneando = document.getElementById('scanActive').style.display !== 'none';
+    document.getElementById('buscarStatus').innerHTML = mensajeHtml;
+    scannerBusy = false;
+    if (estabaEscaneando) {
+      pararCamaraCompleta(function () {});
+      document.getElementById('scanActive').style.display = 'none';
+      document.getElementById('scanIdle').style.display = '';
+    }
   }
 
   /* Se dispara cada vez que la cámara detecta un código legible */
   function onCodigoDetectado(decodedText) {
     if (scannerBusy) return; // evita disparos múltiples del mismo código
     scannerBusy = true;
-    if (html5QrCode) { try { html5QrCode.pause(true); } catch (e) {} }
 
     var soloDigitos = (decodedText || '').replace(/\D/g, '');
     var ean5 = soloDigitos.slice(-5);
 
-    if (ean5.length < 5) {
-      document.getElementById('buscarStatus').innerHTML =
-        '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
-        '<span>Código leído no es válido. Vuelve a apuntar al código de barras.</span></div>';
-      reanudarEscaneoTrasFallo();
-      return;
-    }
-    buscarEAN(ean5);
-  }
-
-  function reanudarEscaneoTrasFallo() {
-    setTimeout(function () {
-      scannerBusy = false;
-      if (html5QrCode && scannerRunning) {
-        try { html5QrCode.resume(); } catch (e) {}
+    // Detenemos la cámara de inmediato al detectar algo, antes de procesar
+    pararCamaraCompleta(function () {
+      if (ean5.length < 5) {
+        document.getElementById('scanActive').style.display = 'none';
+        document.getElementById('scanIdle').style.display = '';
+        manejarBusquedaFallida(
+          '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
+          '<span>Código leído no es válido. Presiona "Iniciar escáner" y vuelve a intentar.</span></div>'
+        );
+        return;
       }
-    }, 1400);
+      buscarEAN(ean5);
+    });
   }
 
   /* ── Mostrar / ocultar ingreso manual de respaldo ── */
@@ -980,10 +1022,10 @@
     var st = document.getElementById('buscarStatus');
 
     if (ean5.length !== 5) {
-      st.innerHTML =
+      manejarBusquedaFallida(
         '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
-        '<span>Código inválido.</span></div>';
-      reanudarEscaneoTrasFallo();
+        '<span>Código inválido.</span></div>'
+      );
       return;
     }
 
@@ -1003,26 +1045,28 @@
       .then(function (result) {
         if (btnManual) btnManual.disabled = false;
         if (!result.encontrado) {
-          st.innerHTML =
+          manejarBusquedaFallida(
             '<div class="error-card">' +
             '<i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
-            '<span>Sin coincidencia para ese código. Verifica fecha, consolidado, y vuelve a escanear.</span></div>';
-          reanudarEscaneoTrasFallo();
+            '<span>Sin coincidencia para ese código. Verifica fecha, consolidado, y vuelve a escanear.</span></div>'
+          );
           return;
         }
         rowData = result;
         st.innerHTML = '';
-        cerrarVistaEscaner();
+        scannerBusy = false;
+        document.getElementById('scanActive').style.display = 'none';
+        document.getElementById('scanIdle').style.display = '';
         mostrarPaso2();
       })
       .catch(function (e) {
         if (btnManual) btnManual.disabled = false;
-        st.innerHTML =
+        console.error(e);
+        manejarBusquedaFallida(
           '<div class="error-card">' +
           '<i class="ti ti-wifi-off" style="font-size:18px;flex-shrink:0"></i>' +
-          '<span>Error de conexión. Verifica tu acceso a internet.</span></div>';
-        console.error(e);
-        reanudarEscaneoTrasFallo();
+          '<span>Error de conexión. Verifica tu acceso a internet.</span></div>'
+        );
       });
   }
 
