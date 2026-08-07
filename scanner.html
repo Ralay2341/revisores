@@ -591,6 +591,9 @@
           </div>
         </div>
       </div>
+      <div class="rev-aviso" id="conAviso" style="display:none;">
+        <i class="ti ti-alert-triangle" style="font-size:13px"></i><span id="conAvisoTxt"></span>
+      </div>
     </div>
 
     <!-- Paso 3: Escaneo de código de barras -->
@@ -852,12 +855,23 @@
       });
   }
 
-  /* ── Selección consolidado ── */
+  /* ── Selección consolidado ──
+     Nota: esto NO consulta el servidor (no hay verificación real de
+     disponibilidad). Solo muestra un recordatorio para que el revisor
+     confirme manualmente que nadie más está trabajando ese consolidado. ── */
   function selCon(n) {
     consolidado = n;
     document.querySelectorAll('.con-btn').forEach(function (b, i) {
       b.classList.toggle('active', i + 1 === n);
     });
+
+    var aviso = document.getElementById('conAviso');
+    if (aviso) {
+      aviso.style.display = 'flex';
+      document.getElementById('conAvisoTxt').textContent =
+        'Confirma con el equipo que nadie más esté trabajando el Consolidado ' + n + ' en esta fecha.';
+    }
+
     checkReady();
   }
 
