@@ -42,9 +42,12 @@
       padding: 10px;
     }
 
-    .app { width: 100%; max-width: 480px; }
+    .app {
+      width: 100%;
+      max-width: 480px;
+    }
 
-    /* Header Principal */
+    /* ── Header ── */
     .header {
       background: var(--navy);
       border-radius: var(--radius-lg);
@@ -55,7 +58,7 @@
       gap: 12px;
     }
     .header-icon {
-      width: 40px; height: 40px;
+      width: 44px; height: 44px;
       background: rgba(255,255,255,0.12);
       border-radius: var(--radius-md);
       display: flex; align-items: center; justify-content: center;
@@ -63,61 +66,62 @@
     }
     .header-icon i { font-size: 22px; color: #7ec8e3; }
     .header-title { font-size: 15px; font-weight: 600; color: #fff; }
-    .header-sub   { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
-
-    /* Barra de Sesión Activa */
-    .session-bar {
-      background: #102a45;
-      color: #fff;
-      border-radius: var(--radius-md);
-      padding: 8px 12px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-    }
-    .session-info { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .session-tag {
-      background: rgba(255,255,255,0.15);
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-    .btn-salir {
-      background: #a32d2d;
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
+    .header-sub   { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+    .btn-salir-header {
+      display: none;
+      flex-shrink: 0;
       align-items: center;
       gap: 5px;
-      transition: opacity 0.15s;
+      background: rgba(255,255,255,0.14);
+      border: none;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
     }
-    .btn-salir:active { opacity: 0.8; }
+    .btn-salir-header:hover { background: rgba(255,255,255,0.24); }
 
-    /* Cards y Formulario */
+    /* ── Config notice ── */
+    .config-notice {
+      background: var(--amber-light);
+      border: 1px solid #e9b96e;
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--amber);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .config-notice i { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Card ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 14px;
-      margin-bottom: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
     }
     .section-label {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
       color: var(--text3);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-    .revisor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    /* ── Revisor grid ── */
+    .revisor-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
     .rev-btn {
       border: 1px solid var(--border);
       background: var(--surface2);
@@ -128,117 +132,212 @@
       color: var(--text2);
       cursor: pointer;
       text-align: center;
+      transition: all 0.15s;
     }
-    .rev-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
-    .rev-btn.bloqueado { opacity: 0.35; cursor: not-allowed; border-style: dashed; }
+    .rev-btn i { font-size: 16px; display: block; margin-bottom: 4px; }
+    .rev-btn:hover { border-color: var(--navy); color: var(--navy); }
+    .rev-btn.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .field { display: flex; flex-direction: column; gap: 4px; }
+    /* ── Grid 2 ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
     .field label { font-size: 12px; color: var(--text2); font-weight: 500; }
 
-    input[type="date"], input[type="tel"], input[type="text"] {
+    /* ── Inputs ── */
+    input[type="date"],
+    input[type="tel"],
+    input[type="number"] {
       width: 100%;
       border: 1px solid var(--border);
       background: var(--surface2);
       border-radius: var(--radius-sm);
-      padding: 9px 10px;
+      padding: 9px 12px;
       font-size: 14px;
+      color: var(--text);
       outline: none;
+      transition: border 0.15s;
+      -webkit-appearance: none;
     }
+    input:focus { border-color: var(--navy); background: #fff; }
 
-    .consol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    /* ── Consolidado ── */
+    .consol-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
     .con-btn {
       border: 1px solid var(--border);
       background: var(--surface2);
       border-radius: var(--radius-md);
-      padding: 8px;
+      padding: 10px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--text2);
       cursor: pointer;
       text-align: center;
+      transition: all 0.15s;
     }
+    .con-btn:hover { border-color: var(--green); color: var(--green); }
     .con-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
 
-    .btn-main {
-      width: 100%;
-      padding: 12px;
+    /* ── EAN row (usado en respaldo manual) ── */
+    .ean-row { display: flex; gap: 10px; align-items: flex-end; }
+    .ean-input-wrap { flex: 1; position: relative; }
+    .ean-input-wrap input {
+      font-size: 22px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.15em;
+      text-align: center;
+      padding: 10px 12px;
+    }
+    .ean-hint { font-size: 11px; color: var(--text3); text-align: center; margin-top: 5px; }
+
+    .btn-buscar {
+      padding: 0 20px;
+      height: 42px;
       border: none;
       border-radius: var(--radius-md);
       background: var(--navy);
       color: #fff;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      margin-top: 10px;
+      white-space: nowrap;
+      transition: opacity 0.15s;
     }
-    .btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-buscar:disabled { opacity: 0.4; cursor: default; }
+    .btn-buscar:not(:disabled):hover { opacity: 0.88; }
 
-    /* Escáner */
-    #qr-reader { width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #000; min-height: 200px; }
-    
-    .ean-row { display: flex; gap: 8px; margin-top: 10px; }
-    .ean-row input {
-      font-size: 16px;
-      font-family: monospace;
-      letter-spacing: 0.05em;
-      text-align: center;
+    /* ── Escáner de cámara ── */
+    #scanIdle { text-align: center; padding: 18px 8px 6px; }
+    #scanIdle .scan-icn {
+      font-size: 34px; color: var(--text3); display: block; margin-bottom: 8px;
+    }
+    #scanIdleMsg { font-size: 13px; color: var(--text2); margin-bottom: 14px; line-height: 1.4; }
+    #qr-reader {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #000;
+      min-height: 220px;
+    }
+    #qr-reader video { border-radius: var(--radius-md); }
+    .scan-tip {
+      font-size: 11px; color: var(--text3); text-align: center; margin-top: 8px;
+    }
+    .btn-cancel-scan {
+      background: none; border: none; color: var(--text3); font-size: 12px;
+      cursor: pointer; padding: 10px 0 0; width: 100%; text-align: center;
+    }
+    .btn-manual-toggle {
+      background: none; border: none; color: var(--text3); font-size: 11px;
+      cursor: pointer; text-decoration: underline; padding: 0;
     }
 
-    /* Toast de Éxito */
-    .toast-exito {
+    /* ── Producto encontrado ── */
+    .producto-card {
       background: var(--green-light);
       border: 1px solid #9fe1cb;
-      color: #085041;
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .producto-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--green-mid); margin-bottom: 6px; }
+    .producto-nombre  { font-size: 16px; font-weight: 600; color: #085041; line-height: 1.3; }
+    .producto-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--green);
+    }
+    .producto-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* ── Error ── */
+    .error-card {
+      background: var(--red-light);
+      border: 1px solid #f7c1c1;
       border-radius: var(--radius-md);
-      padding: 10px 12px;
-      margin-bottom: 10px;
-      font-size: 13px;
+      padding: 10px 14px;
+      margin-top: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
-      animation: fadeIn 0.3s ease;
+      font-size: 13px;
+      color: var(--red);
     }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Producto */
-    .producto-card {
-      background: var(--navy-light);
-      border: 1px solid #c0d8f3;
-      border-radius: var(--radius-md);
-      padding: 12px;
-      margin-bottom: 10px;
+    /* ── Status badges ── */
+    .status-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
     }
-    .producto-nombre { font-size: 15px; font-weight: 700; color: var(--navy); }
-    .producto-meta { font-size: 12px; color: var(--text2); margin-top: 4px; display: flex; gap: 10px; }
+    .badge-rev   { background: var(--navy-light); color: var(--navy); }
+    .badge-con   { background: var(--green-light); color: var(--green); }
+    .badge-fila  { background: var(--amber-light); color: var(--amber); }
 
-    /* Numpad */
+    /* ── Numpad ── */
     .cantidad-display {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 700;
       text-align: center;
+      color: var(--text);
+      padding: 10px 12px;
       background: var(--surface2);
       border-radius: var(--radius-md);
-      padding: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
     }
-    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
     .num-btn {
       border: 1px solid var(--border);
       background: var(--surface2);
       border-radius: var(--radius-sm);
-      padding: 12px 4px;
-      font-size: 18px;
-      font-weight: 700;
+      padding: 10px 4px;
+      font-size: 17px;
+      font-weight: 600;
       cursor: pointer;
       text-align: center;
+      color: var(--text);
+      transition: background 0.1s, transform 0.08s;
+      -webkit-tap-highlight-color: transparent;
     }
+    .num-btn:active { background: var(--border); transform: scale(0.96); }
+    .num-btn.del { font-size: 13px; color: var(--text2); }
     .num-btn.cero { grid-column: span 2; }
 
-    /* Deslizador */
+    /* ── Slide to confirm (estilo iOS) ── */
+    .slide-container { margin-top: 4px; }
+    .slide-label-top {
+      font-size: 11px;
+      color: var(--text3);
+      text-align: center;
+      margin-bottom: 6px;
+    }
     .slide-wrap {
       position: relative;
       height: 48px;
@@ -248,78 +347,240 @@
       overflow: hidden;
       cursor: pointer;
       user-select: none;
-      margin-top: 10px;
+      -webkit-user-select: none;
     }
-    .slide-track { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: var(--green-mid); }
+    .slide-track {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0%;
+      background: var(--green-mid);
+      border-radius: 24px;
+      transition: width 0.04s linear;
+    }
     .slide-thumb {
-      position: absolute; left: 3px; top: 3px; width: 42px; height: 42px;
-      background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 2;
+      position: absolute;
+      left: 3px; top: 3px;
+      width: 42px; height: 42px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      transition: left 0.04s linear;
+      z-index: 2;
     }
+    .slide-thumb i { font-size: 18px; color: var(--navy); }
     .slide-text {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 600; color: var(--text2); pointer-events: none; z-index: 1;
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      pointer-events: none;
+      z-index: 1;
+      letter-spacing: 0.02em;
     }
+    .slide-text.confirmed { color: #fff; }
+    .slide-wrap.done .slide-thumb { left: calc(100% - 45px); background: var(--green-mid); }
+    .slide-wrap.done .slide-track { width: 100%; }
+    .slide-wrap.done .slide-thumb i { color: #fff; }
 
-    /* Modal Alerta */
+    /* ── Loading ── */
+    .loading-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid var(--border2);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Éxito ── */
+    .success-card {
+      background: var(--green-light);
+      border: 1px solid #9fe1cb;
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .success-card i.big { font-size: 48px; color: var(--green-mid); display: block; margin-bottom: 10px; }
+    .success-title { font-size: 18px; font-weight: 700; color: #085041; }
+    .success-sub   { font-size: 13px; color: var(--green); margin-top: 6px; line-height: 1.5; }
+    .success-detail {
+      background: rgba(255,255,255,0.6);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin: 14px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .det-item { text-align: center; }
+    .det-val   { font-size: 22px; font-weight: 700; color: #085041; }
+    .det-label { font-size: 11px; color: var(--green); margin-top: 2px; }
+    .btn-action {
+      padding: 11px 22px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: opacity 0.15s;
+      margin: 4px;
+    }
+    .btn-action:hover { opacity: 0.85; }
+    .btn-outline { border: 1px solid var(--border2); background: #fff; color: var(--text); }
+    .btn-primary { border: none; background: var(--navy); color: #fff; }
+
+
+
+    /* ── Modal alerta diferencia ── */
     .alerta-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      display: flex; align-items: center; justify-content: center; z-index: 300; padding: 16px;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
     }
     .alerta-modal {
-      background: #fff; border-radius: var(--radius-lg); padding: 20px; width: 100%; max-width: 340px; text-align: center;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px 18px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
     }
+    .alerta-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #fff4e0;
+      border: 2px solid #f0a500;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .alerta-icon i { font-size: 26px; color: #c97a00; }
+    .alerta-titulo {
+      font-size: 16px; font-weight: 700;
+      text-align: center; color: var(--text);
+      margin-bottom: 6px;
+    }
+    .alerta-sub {
+      font-size: 13px; text-align: center;
+      color: var(--text2); margin-bottom: 16px; line-height: 1.5;
+    }
+    .alerta-btns { display: flex; flex-direction: column; gap: 8px; }
+    .btn-alerta-corregir {
+      padding: 11px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-md);
+      background: var(--surface2);
+      font-size: 14px; font-weight: 600;
+      color: var(--text); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+    .btn-alerta-confirmar {
+      padding: 11px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: #c97a00;
+      font-size: 14px; font-weight: 600;
+      color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+    .btn-alerta-corregir:hover  { background: var(--border); }
+    .btn-alerta-confirmar:hover { background: #b36c00; }
 
-    .loading-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text2); margin-top: 8px; }
-    .spinner { width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--navy); border-radius: 50%; animation: spin 0.6s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .rev-btn.bloqueado {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-style: dashed;
+    }
+    .rev-btn.bloqueado:hover { border-color: var(--border); color: var(--text2); }
+    .rev-aviso {
+      font-size: 11px; color: var(--amber); margin-top: 8px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    /* Lote input */
+    .lote-row { display: flex; gap: 10px; align-items: flex-end; }
+    .lote-input-wrap { flex: 1; }
+    .lote-input-wrap input {
+      font-size: 20px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.15em;
+      text-align: center;
+      padding: 10px 12px;
+      text-transform: uppercase;
+    }
+    .lote-hint { font-size: 11px; color: var(--text3); text-align: center; margin-top: 5px; }
+    .badge-lote { background: #f0eafb; color: #5b21b6; }
+
+    @media (max-width: 360px) {
+      .revisor-grid { grid-template-columns: repeat(3, 1fr); }
+      .cantidad-display { font-size: 40px; }
+    }
   </style>
 </head>
 <body>
 
+<!-- ══════════ APP ══════════ -->
 <div class="app">
 
   <!-- Header -->
   <div class="header">
     <div class="header-icon"><i class="ti ti-clipboard-check"></i></div>
-    <div>
+    <div style="flex:1;min-width:0;">
       <div class="header-title">Revisión de Inventario — ALM9037</div>
+      <div class="header-sub">Conteo y verificación por consolidado</div>
       <div class="header-sub">Propiedad de Raúl Layseca B. (Ley 17.336)</div>
     </div>
-  </div>
-
-  <!-- Barra de Sesión Activa (Con Botón SALIR) -->
-  <div class="session-bar" id="sessionBar" style="display:none;">
-    <div class="session-info">
-      <span class="session-tag" id="sTagRev">Rev: -</span>
-      <span class="session-tag" id="sTagCon">Consol: -</span>
-      <span class="session-tag" id="sTagFec">-</span>
-    </div>
-    <button class="btn-salir" onclick="cerrarSesionWork()">
-      <i class="ti ti-logout" style="font-size:13px"></i> SALIR
+    <button class="btn-salir-header" id="btnSalir" onclick="confirmarSalir()">
+      <i class="ti ti-logout" style="font-size:14px"></i>Salir
     </button>
   </div>
 
-  <!-- VISTA 1: CONFIGURACIÓN -->
-  <div id="viewSetup">
+  <!-- PASO 1: Revisor -->
+  <div id="step1">
+
     <div class="card">
-      <div class="section-label">Paso 1 — Selecciona tu número de revisor</div>
-      <div class="revisor-grid">
-        <button class="rev-btn" id="rbtn1" onclick="selRev(1)">Rev. 1</button>
-        <button class="rev-btn" id="rbtn2" onclick="selRev(2)">Rev. 2</button>
-        <button class="rev-btn" id="rbtn3" onclick="selRev(3)">Rev. 3</button>
-        <button class="rev-btn" id="rbtn4" onclick="selRev(4)">Rev. 4</button>
-        <button class="rev-btn" id="rbtn5" onclick="selRev(5)">Rev. 5</button>
-        <button class="rev-btn" id="rbtn6" onclick="selRev(6)">Rev. 6</button>
+      <div class="section-label"><i class="ti ti-user" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 1 — Selecciona tu número de revisor</div>
+      <div class="revisor-grid" id="revisorGrid">
+        <button class="rev-btn" id="rbtn1" onclick="selRev(1)"><i class="ti ti-user"></i>Rev. 1</button>
+        <button class="rev-btn" id="rbtn2" onclick="selRev(2)"><i class="ti ti-user"></i>Rev. 2</button>
+        <button class="rev-btn" id="rbtn3" onclick="selRev(3)"><i class="ti ti-user"></i>Rev. 3</button>
+        <button class="rev-btn" id="rbtn4" onclick="selRev(4)"><i class="ti ti-user"></i>Rev. 4</button>
+        <button class="rev-btn" id="rbtn5" onclick="selRev(5)"><i class="ti ti-user"></i>Rev. 5</button>
+        <button class="rev-btn" id="rbtn6" onclick="selRev(6)"><i class="ti ti-user"></i>Rev. 6</button>
+      </div>
+      <div class="rev-aviso" id="revAviso" style="display:none;">
+        <i class="ti ti-lock" style="font-size:13px"></i><span id="revAvisoTxt"></span>
       </div>
     </div>
 
+    <!-- Fecha + Consolidado -->
     <div class="card">
-      <div class="section-label">Paso 2 — Fecha y Consolidado</div>
+      <div class="section-label"><i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 2 — Fecha y consolidado a revisar</div>
       <div class="grid-2">
         <div class="field">
-          <label>Fecha</label>
-          <input type="date" id="fechaInput" onchange="checkSetupReady()" />
+          <label>Fecha a procesar</label>
+          <input type="date" id="fechaInput" oninput="checkReady()" />
         </div>
         <div class="field">
           <label>Consolidado</label>
@@ -330,50 +591,69 @@
           </div>
         </div>
       </div>
-
-      <button class="btn-main" id="btnIniciarSesion" onclick="iniciarSesionWork()" disabled>
-        <i class="ti ti-play" style="font-size:16px"></i> Iniciar Sesión de Trabajo
-      </button>
     </div>
-  </div>
 
-  <!-- VISTA 2: TRABAJO CONTINUO -->
-  <div id="viewWork" style="display:none;">
+    <!-- Paso 3: Escaneo de código de barras -->
+    <div class="card">
+      <div class="section-label"><i class="ti ti-barcode" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 3 — Escanea el código de barras del producto</div>
 
-    <!-- Toast con último producto grabado -->
-    <div id="toastLastSaved" style="display:none;"></div>
-
-    <!-- SECCIÓN A: ESCÁNER / BÚSQUEDA -->
-    <div id="secScan" class="card">
-      <div class="section-label">Escanea el código del producto</div>
-      
-      <div id="scanActive">
-        <div id="qr-reader"></div>
-      </div>
-
-      <div class="ean-row">
-        <input type="tel" id="eanInput" maxlength="14" placeholder="EAN Completo"
-               oninput="this.value=this.value.replace(/\D/g,''); checkEanLength()" />
-        <button class="btn-main" id="btnBuscarManual" style="margin:0; width:110px;" onclick="buscarEAN(document.getElementById('eanInput').value)" disabled>
-          Buscar
+      <div id="scanIdle">
+        <i class="ti ti-scan scan-icn"></i>
+        <div id="scanIdleMsg">Completa revisor, fecha y consolidado para habilitar la cámara.</div>
+        <button class="btn-buscar" id="btnScan" onclick="iniciarEscaneo()" style="width:100%;" disabled>
+          <i class="ti ti-camera" style="font-size:16px"></i>Iniciar escáner
         </button>
       </div>
-      <div id="buscarStatus"></div>
-    </div>
 
-    <!-- SECCIÓN B: REGISTRO DE CANTIDAD Y LOTE -->
-    <div id="secProduct" class="card" style="display:none;">
-      <div id="productoCard"></div>
-
-      <div class="field" style="margin-bottom:10px;">
-        <label>Lote (opcional)</label>
-        <input type="text" id="loteInput" maxlength="10" placeholder="_ _ _ _ _"
-               oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" />
+      <div id="scanActive" style="display:none;">
+        <div id="qr-reader"></div>
+        <div class="scan-tip">Apunta la cámara al código de barras del producto</div>
+        <button class="btn-cancel-scan" onclick="detenerEscaneo()">
+          <i class="ti ti-x" style="font-size:13px;vertical-align:-1px"></i> Cancelar escaneo
+        </button>
       </div>
 
-      <div class="section-label">Cantidad contabilizada</div>
-      <div class="cantidad-display" id="cantDisplay">0</div>
+      <div id="buscarStatus"></div>
 
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn-manual-toggle" id="btnToggleManual" onclick="toggleManual()">¿Problemas con la cámara? Ingresar manualmente</button>
+      </div>
+      <div id="manualBox" style="display:none;margin-top:10px;">
+        <div class="ean-row">
+          <div class="ean-input-wrap">
+            <input type="tel" id="eanInput" maxlength="5" placeholder="_ _ _ _ _"
+              oninput="this.value=this.value.replace(/\D/g,''); checkReady()" />
+            <div class="ean-hint">Últimos 5 dígitos del EAN</div>
+          </div>
+          <button class="btn-buscar" id="btnBuscarManual" onclick="buscarEAN(document.getElementById('eanInput').value.trim())" disabled>
+            <i class="ti ti-search" style="font-size:16px"></i>Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /step1 -->
+
+  <!-- PASO 2: Cantidad + Slide -->
+  <div id="step2" style="display:none;">
+
+    <div id="productoCard"></div>
+
+    <div class="card">
+      <div class="section-label"><i class="ti ti-tag" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 4 — Últimos 5 caracteres del LOTE <span style="font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0;">(opcional)</span></div>
+      <div class="lote-row">
+        <div class="lote-input-wrap">
+          <input type="text" id="loteInput" maxlength="5" placeholder="_ _ _ _ _"
+            oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" />
+          <div class="lote-hint">Alfanumérico — déjalo vacío si no aplica</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label"><i class="ti ti-calculator" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Paso 5 — Cantidad contabilizada</div>
+      <div class="status-row" id="statusBadges"></div>
+      <div class="cantidad-display" id="cantDisplay">0</div>
       <div class="numpad">
         <button class="num-btn" onclick="numPad('7')">7</button>
         <button class="num-btn" onclick="numPad('8')">8</button>
@@ -385,276 +665,547 @@
         <button class="num-btn" onclick="numPad('2')">2</button>
         <button class="num-btn" onclick="numPad('3')">3</button>
         <button class="num-btn cero" onclick="numPad('0')">0</button>
-        <button class="num-btn" onclick="numPad('del')" style="color:var(--red);"><i class="ti ti-backspace"></i></button>
+        <button class="num-btn del" onclick="numPad('del')"><i class="ti ti-backspace" style="font-size:18px"></i></button>
       </div>
-
-      <div class="slide-wrap" id="slideWrap">
-        <div class="slide-track" id="slideTrack"></div>
-        <div class="slide-thumb" id="slideThumb"><i class="ti ti-chevrons-right" id="slideIcon"></i></div>
-        <div class="slide-text" id="slideText">Desliza para grabar →</div>
+      <div style="border-top:1px solid var(--border);margin:10px 0 8px;"></div>
+      <div class="slide-container">
+        <div class="slide-label-top" id="slideHint">Desliza para confirmar y grabar</div>
+        <div class="slide-wrap" id="slideWrap">
+          <div class="slide-track" id="slideTrack"></div>
+          <div class="slide-thumb" id="slideThumb">
+            <i class="ti ti-chevrons-right" id="slideIcon"></i>
+          </div>
+          <div class="slide-text" id="slideText">Desliza para grabar →</div>
+        </div>
       </div>
       <div id="grabarStatus"></div>
-
-      <button onclick="cancelarEntradaProducto()" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;width:100%;text-align:center;margin-top:12px;">
-        ← Cancelar y escanear otro
-      </button>
     </div>
 
-  </div>
+    <button onclick="volverBuscar()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;padding:4px 0;display:flex;align-items:center;gap:5px;margin-bottom:8px;">
+      <i class="ti ti-arrow-left" style="font-size:14px"></i>Escanear otro producto
+    </button>
 
-</div>
+  </div><!-- /step2 -->
 
-<!-- Modal Alerta para Diferencias -->
-<div class="alerta-overlay" id="alertaOverlay" style="display:none;">
-  <div class="alerta-modal">
-    <div style="font-size:32px;color:#c97a00;margin-bottom:6px;"><i class="ti ti-alert-triangle"></i></div>
-    <div style="font-weight:700;margin-bottom:6px;">Diferencia Detectada</div>
-    <div style="font-size:13px;color:var(--text2);margin-bottom:14px;">La cantidad no coincide con el sistema. ¿Deseas confirmar de todos modos?</div>
-    <div style="display:flex;flex-direction:column;gap:6px;">
-      <button class="btn-main" style="background:#c97a00;" onclick="grabarDeFuerza()">Confirmar y Grabar</button>
-      <button class="btn-main" style="background:var(--surface2);color:var(--text);" onclick="cerrarAlerta()">Corregir Cantidad</button>
-    </div>
-  </div>
-</div>
+  <!-- PASO 3: Éxito -->
+  <div id="step3" style="display:none;"></div>
 
+</div><!-- /app -->
+
+<!-- Librería de escaneo de códigos de barras (usa la cámara del dispositivo) -->
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 <script>
-  // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
-  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuhJL9uLFtIM3KKafHYd3vhDSWKlLAVyBe45Lu_pBZV1hE5U4cnIssn2yXE91-xvMOog/exec';
+  /* ── URL Apps Script ── */
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIeRhUh9qSHaPTeTHlzRn8mMnUcz_U2A2eB5TIBFMvAHK7A0YZYmmyAu0mOWD7K-piww/exec';
 
+  /* ── Estado ── */
   var revisor = null, consolidado = null, rowData = null, cantStr = '0';
+  var revisoresOcupados = []; // array con los números bloqueados en Sheets
+
+  /* ── Estado del escáner de cámara ── */
   var html5QrCode = null;
+  var scannerRunning = false;   // true mientras la cámara está activa y "escuchando"
+  var scannerBusy = false;      // true mientras se procesa/consulta un código ya leído
+  var scannerStarting = false;  // true mientras la cámara está iniciando (evita doble clic)
 
-  window.addEventListener('DOMContentLoaded', function () {
-    var hoy = new Date();
-    document.getElementById('fechaInput').value = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
-    actualizarOcupados();
-  });
+  /* ══════════════════════════════════════════
+     BLOQUEO DE REVISOR — compartido via Sheets
+     Cada dispositivo guarda su revisor en
+     localStorage SOLO para recordar cuál tomó.
+     La lista de bloqueados viene del servidor.
+  ══════════════════════════════════════════ */
+  var LLAVE_REV = 'alm9037_mi_revisor';
 
-  function actualizarOcupados() {
+  function getMiRevisor() {
+    var v = localStorage.getItem(LLAVE_REV);
+    return v ? parseInt(v) : null;
+  }
+
+  function guardarMiRevisor(n) {
+    localStorage.setItem(LLAVE_REV, n.toString());
+  }
+
+  function olvidarMiRevisor() {
+    localStorage.removeItem(LLAVE_REV);
+  }
+
+  /* Pinta los botones según lista de bloqueados recibida del servidor */
+  function pintarBotonesRevisor(ocupados, miRev) {
+    for (var i = 1; i <= 6; i++) {
+      var btn = document.getElementById('rbtn' + i);
+      btn.classList.remove('active', 'bloqueado');
+      var esMio    = (miRev === i);
+      var ocupado  = (ocupados.indexOf(i) !== -1);
+      if (esMio) {
+        btn.classList.add('active');
+        btn.disabled = false;
+      } else if (ocupado) {
+        btn.classList.add('bloqueado');
+        btn.disabled = true;
+      } else {
+        btn.disabled = false;
+      }
+    }
+    var aviso = document.getElementById('revAviso');
+    if (miRev) {
+      aviso.style.display = 'flex';
+      document.getElementById('revAvisoTxt').textContent =
+        'Eres Revisor ' + miRev + '. Se libera al presionar "Salir".';
+    } else {
+      aviso.style.display = 'none';
+    }
+
+    var btnSalir = document.getElementById('btnSalir');
+    if (btnSalir) btnSalir.style.display = miRev ? 'flex' : 'none';
+  }
+
+  /* Consulta al servidor qué revisores están ocupados */
+  function cargarEstadoRevisores(callback) {
     fetch(APPS_SCRIPT_URL + '?accion=estadoRevisores')
       .then(function(r) { return r.json(); })
       .then(function(res) {
-        var ocupados = res.ocupados || [];
-        for (var i = 1; i <= 6; i++) {
-          var btn = document.getElementById('rbtn' + i);
-          btn.classList.remove('active', 'bloqueado');
-          if (revisor === i) btn.classList.add('active');
-          else if (ocupados.indexOf(i) !== -1) btn.classList.add('bloqueado');
-        }
+        revisoresOcupados = res.ocupados || [];
+        callback(revisoresOcupados);
+      })
+      .catch(function() {
+        revisoresOcupados = [];
+        callback([]);
       });
   }
 
-  function selRev(n) {
-    revisor = n;
-    for (var i = 1; i <= 6; i++) {
-      document.getElementById('rbtn' + i).classList.toggle('active', i === n);
+  /* ── Init ── */
+  window.addEventListener('DOMContentLoaded', function () {
+    var hoy  = new Date();
+    var dd   = String(hoy.getDate()).padStart(2, '0');
+    var mm   = String(hoy.getMonth() + 1).padStart(2, '0');
+    var yyyy = hoy.getFullYear();
+    document.getElementById('fechaInput').value = yyyy + '-' + mm + '-' + dd;
+
+    var miRev = getMiRevisor();
+    if (miRev) revisor = miRev;
+
+    // Mostrar estado mientras carga
+    for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
+    document.getElementById('revAviso').style.display = 'flex';
+    document.getElementById('revAvisoTxt').textContent = 'Consultando disponibilidad…';
+
+    if (!miRev) {
+      // Sin sesión local → limpiar todos los bloqueos del servidor (inicio o recarga limpia)
+      fetch(APPS_SCRIPT_URL + '?accion=resetRevisores')
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          revisoresOcupados = [];
+          pintarBotonesRevisor([], null);
+          checkReady();
+        })
+        .catch(function() {
+          pintarBotonesRevisor([], null);
+          checkReady();
+        });
+    } else {
+      // Tengo sesión → solo consultar estado actual
+      cargarEstadoRevisores(function(ocupados) {
+        pintarBotonesRevisor(ocupados, miRev);
+        checkReady();
+      });
     }
-    checkSetupReady();
+  });
+
+  /* Liberar la cámara si el usuario cierra o recarga la pestaña */
+  window.addEventListener('beforeunload', function () {
+    if (html5QrCode && scannerRunning) {
+      try { html5QrCode.stop(); } catch (e) {}
+    }
+  });
+
+  /* ── Selección revisor ── */
+  function selRev(n) {
+    // Si ya tengo revisor asignado y es diferente, ignorar
+    var miRev = getMiRevisor();
+    if (miRev && miRev !== n) return;
+    // Si ya está ocupado por otro, ignorar
+    if (revisoresOcupados.indexOf(n) !== -1 && miRev !== n) return;
+
+    // Bloquear visualmente mientras se registra
+    for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
+
+    fetch(APPS_SCRIPT_URL + '?accion=bloquearRev&revisor=' + n)
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.ok) {
+          revisor = n;
+          guardarMiRevisor(n);
+          revisoresOcupados = res.ocupados || [];
+          pintarBotonesRevisor(revisoresOcupados, n);
+          checkReady();
+        } else {
+          // Ya fue tomado por otro en ese instante
+          revisoresOcupados = res.ocupados || [];
+          pintarBotonesRevisor(revisoresOcupados, getMiRevisor());
+          alert('El Revisor ' + n + ' acaba de ser tomado por otra persona. Elige otro.');
+        }
+      })
+      .catch(function() {
+        for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = false;
+        alert('Error de conexión. Intenta nuevamente.');
+      });
   }
 
+  /* ── Selección consolidado ── */
   function selCon(n) {
     consolidado = n;
     document.querySelectorAll('.con-btn').forEach(function (b, i) {
       b.classList.toggle('active', i + 1 === n);
     });
-    checkSetupReady();
+    checkReady();
   }
 
-  function checkSetupReady() {
+  /* ── Habilitar cámara / botón manual ── */
+  function checkReady() {
     var fecha = document.getElementById('fechaInput').value;
-    document.getElementById('btnIniciarSesion').disabled = !(revisor && consolidado && fecha);
-  }
+    var ok    = !!(revisor && consolidado && fecha);
 
-  function iniciarSesionWork() {
-    fetch(APPS_SCRIPT_URL + '?accion=bloquearRev&revisor=' + revisor)
-      .then(function(r) { return r.json(); })
-      .then(function(res) {
-        if (!res.ok && res.ocupados && res.ocupados.indexOf(revisor) !== -1) {
-          alert('El Revisor ' + revisor + ' fue ocupado por otra persona. Elige otro.');
-          revisor = null;
-          actualizarOcupados();
-          return;
-        }
-        
-        var fecha = document.getElementById('fechaInput').value;
-        document.getElementById('sTagRev').textContent = 'Rev: ' + revisor;
-        document.getElementById('sTagCon').textContent = 'Consol: ' + consolidado;
-        document.getElementById('sTagFec').textContent = fecha.split('-').reverse().join('/');
+    var btnScan = document.getElementById('btnScan');
+    if (btnScan) btnScan.disabled = !ok;
 
-        document.getElementById('viewSetup').style.display = 'none';
-        document.getElementById('sessionBar').style.display = 'flex';
-        document.getElementById('viewWork').style.display = '';
+    var msg = document.getElementById('scanIdleMsg');
+    if (msg) {
+      msg.textContent = ok
+        ? 'Listo. Presiona "Iniciar escáner" y apunta al código de barras.'
+        : 'Completa revisor, fecha y consolidado para habilitar la cámara.';
+    }
 
-        activarEscanerContinuo();
-      });
-  }
-
-  function cerrarSesionWork() {
-    if (!confirm('¿Seguro que deseas salir? Se liberará el Revisor ' + revisor + '.')) return;
-
-    pararCamara(function() {
-      if (revisor) {
-        fetch(APPS_SCRIPT_URL + '?accion=liberarRev&revisor=' + revisor);
-      }
-      revisor = null;
-      consolidado = null;
-      rowData = null;
-
-      document.getElementById('sessionBar').style.display = 'none';
-      document.getElementById('viewWork').style.display = 'none';
-      document.getElementById('viewSetup').style.display = '';
-      document.querySelectorAll('.con-btn').forEach(function (b) { b.classList.remove('active'); });
-      
-      checkSetupReady();
-      actualizarOcupados();
-    });
-  }
-
-  function activarEscanerContinuo() {
-    document.getElementById('secScan').style.display = '';
-    document.getElementById('secProduct').style.display = 'none';
-    document.getElementById('eanInput').value = '';
-    document.getElementById('btnBuscarManual').disabled = true;
-    document.getElementById('buscarStatus').innerHTML = '';
-
-    pararCamara(function() {
-      html5QrCode = new Html5Qrcode('qr-reader');
-      var config = { fps: 15, qrbox: { width: 260, height: 130 } };
-      html5QrCode.start({ facingMode: 'environment' }, config, function(decoded) {
-        var eanCompleto = (decoded || '').replace(/\D/g, '').trim();
-        if (eanCompleto.length >= 8) buscarEAN(eanCompleto);
-      }).catch(function() {
-        document.getElementById('buscarStatus').innerHTML = '<div style="font-size:12px;color:var(--amber);margin-top:6px;">Cámara no disponible. Usa el ingreso manual.</div>';
-      });
-    });
-  }
-
-  function pararCamara(callback) {
-    if (html5QrCode) {
-      html5QrCode.stop().then(function() { html5QrCode.clear(); html5QrCode = null; if (callback) callback(); })
-                        .catch(function() { html5QrCode = null; if (callback) callback(); });
-    } else {
-      if (callback) callback();
+    var eanInput = document.getElementById('eanInput');
+    var btnManual = document.getElementById('btnBuscarManual');
+    if (eanInput && btnManual) {
+      btnManual.disabled = !(ok && eanInput.value.length === 5);
     }
   }
 
-  function checkEanLength() {
-    var v = document.getElementById('eanInput').value.trim();
-    document.getElementById('btnBuscarManual').disabled = (v.length < 8);
+  /* ── Formato fecha: YYYY-MM-DD → DD/MM/YYYY ── */
+  function fmt(dateStr) {
+    var p = dateStr.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
   }
 
-  function buscarEAN(ean) {
-    var fecha = document.getElementById('fechaInput').value.split('-').reverse().join('/');
-    var st = document.getElementById('buscarStatus');
-    st.innerHTML = '<div class="loading-row"><div class="spinner"></div> Buscando EAN...</div>';
+  /* ══════════════════════════════════════════
+     ESCÁNER DE CÓDIGO DE BARRAS (CÁMARA)
+     Nota: cada intento de escaneo usa una instancia
+     NUEVA de Html5Qrcode y la cámara se detiene por
+     completo antes de reiniciar. Reutilizar la misma
+     instancia con pause()/resume() puede dejar el
+     stream de video en un estado inconsistente en
+     algunos celulares y bloquear el siguiente escaneo.
+  ══════════════════════════════════════════ */
 
-    var url = APPS_SCRIPT_URL + '?accion=buscar&fecha=' + encodeURIComponent(fecha) + '&consolidado=' + consolidado + '&ean=' + encodeURIComponent(ean);
+  function crearInstanciaEscaner() {
+    return new Html5Qrcode('qr-reader', {
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.CODE_128
+      ],
+      experimentalFeatures: {
+        useBarCodeDetectorIfSupported: true
+      },
+      verbose: false
+    });
+  }
+
+  /* Detiene y libera por completo la instancia actual de la cámara (si existe) */
+  function pararCamaraCompleta(callback) {
+    if (!html5QrCode) { callback(); return; }
+    var instanciaVieja = html5QrCode;
+    html5QrCode = null;
+    scannerRunning = false;
+    try {
+      instanciaVieja.stop()
+        .then(function () { try { instanciaVieja.clear(); } catch (e) {} callback(); })
+        .catch(function ()  { try { instanciaVieja.clear(); } catch (e) {} callback(); });
+    } catch (e) {
+      callback();
+    }
+  }
+
+  function iniciarEscaneo() {
+    var fecha = document.getElementById('fechaInput').value;
+    if (!revisor || !consolidado || !fecha) return;
+    if (scannerStarting) return; // evita doble clic mientras inicia
+
+    scannerStarting = true;
+    document.getElementById('btnScan').disabled = true;
+    document.getElementById('buscarStatus').innerHTML = '';
+    document.getElementById('scanIdle').style.display = 'none';
+    document.getElementById('scanActive').style.display = '';
+
+    // Por seguridad, siempre partimos liberando cualquier instancia previa
+    pararCamaraCompleta(function () {
+      html5QrCode = crearInstanciaEscaner();
+
+      var config = {
+        fps: 20,
+        qrbox: { width: 280, height: 140 },
+        aspectRatio: 1.4,
+        videoConstraints: {
+          facingMode: 'environment',
+          width: { ideal: 960 },
+          height: { ideal: 540 }
+        }
+      };
+
+      scannerBusy = false;
+      html5QrCode.start({ facingMode: 'environment' }, config, onCodigoDetectado, function () {/* frame sin código, ignorar */})
+        .then(function () {
+          scannerRunning = true;
+          scannerStarting = false;
+          document.getElementById('btnScan').disabled = false;
+        })
+        .catch(function () {
+          scannerStarting = false;
+          document.getElementById('btnScan').disabled = false;
+          document.getElementById('buscarStatus').innerHTML =
+            '<div class="error-card"><i class="ti ti-camera-off" style="font-size:18px;flex-shrink:0"></i>' +
+            '<span>No se pudo acceder a la cámara. Revisa los permisos del navegador o usa el ingreso manual.</span></div>';
+          cerrarVistaEscaner();
+        });
+    });
+  }
+
+  function detenerEscaneo() {
+    cerrarVistaEscaner();
+  }
+
+  function cerrarVistaEscaner() {
+    scannerRunning = false;
+    scannerBusy = false;
+    scannerStarting = false;
+    document.getElementById('btnScan').disabled = false;
+    pararCamaraCompleta(function () {});
+    document.getElementById('scanActive').style.display = 'none';
+    document.getElementById('scanIdle').style.display = '';
+  }
+
+  /* Vuelve a la vista de "listo para escanear" mostrando un mensaje de error,
+     liberando la cámara si estaba activa. Sirve tanto para fallos de escaneo
+     como de búsqueda manual. */
+  function manejarBusquedaFallida(mensajeHtml) {
+    var estabaEscaneando = document.getElementById('scanActive').style.display !== 'none';
+    document.getElementById('buscarStatus').innerHTML = mensajeHtml;
+    scannerBusy = false;
+    if (estabaEscaneando) {
+      pararCamaraCompleta(function () {});
+      document.getElementById('scanActive').style.display = 'none';
+      document.getElementById('scanIdle').style.display = '';
+    }
+  }
+
+  /* Se dispara cada vez que la cámara detecta un código legible */
+  function onCodigoDetectado(decodedText) {
+    if (scannerBusy) return; // evita disparos múltiples del mismo código
+    scannerBusy = true;
+
+    var soloDigitos = (decodedText || '').replace(/\D/g, '');
+    var ean5 = soloDigitos.slice(-5);
+
+    // Detenemos la cámara de inmediato al detectar algo, antes de procesar
+    pararCamaraCompleta(function () {
+      if (ean5.length < 5) {
+        document.getElementById('scanActive').style.display = 'none';
+        document.getElementById('scanIdle').style.display = '';
+        manejarBusquedaFallida(
+          '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
+          '<span>Código leído no es válido. Presiona "Iniciar escáner" y vuelve a intentar.</span></div>'
+        );
+        return;
+      }
+      buscarEAN(ean5);
+    });
+  }
+
+  /* ── Mostrar / ocultar ingreso manual de respaldo ── */
+  function toggleManual() {
+    var box = document.getElementById('manualBox');
+    var visible = box.style.display !== 'none';
+    box.style.display = visible ? 'none' : '';
+    document.getElementById('btnToggleManual').textContent = visible
+      ? '¿Problemas con la cámara? Ingresar manualmente'
+      : 'Ocultar ingreso manual';
+    checkReady();
+  }
+
+  /* ── Buscar producto (por escaneo o por ingreso manual de respaldo) ── */
+  function buscarEAN(ean5) {
+    ean5 = (ean5 || '').trim();
+    var fecha = document.getElementById('fechaInput').value;
+    var st = document.getElementById('buscarStatus');
+
+    if (ean5.length !== 5) {
+      manejarBusquedaFallida(
+        '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
+        '<span>Código inválido.</span></div>'
+      );
+      return;
+    }
+
+    st.innerHTML = '<div class="loading-row"><div class="spinner"></div>Consultando hoja CONSOLIDADO…</div>';
+
+    var btnManual = document.getElementById('btnBuscarManual');
+    if (btnManual) btnManual.disabled = true;
+
+    var url = APPS_SCRIPT_URL
+      + '?accion=buscar'
+      + '&fecha='       + encodeURIComponent(fmt(fecha))
+      + '&consolidado=' + consolidado
+      + '&ean5='        + encodeURIComponent(ean5);
 
     fetch(url)
-      .then(function(r) { return r.json(); })
-      .then(function(res) {
-        if (!res || !res.encontrado) {
-          st.innerHTML = '<div style="color:var(--red);font-size:12px;margin-top:6px;">No se encontró el producto con ese EAN.</div>';
+      .then(function (r) { return r.json(); })
+      .then(function (result) {
+        if (btnManual) btnManual.disabled = false;
+        if (!result.encontrado) {
+          manejarBusquedaFallida(
+            '<div class="error-card">' +
+            '<i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i>' +
+            '<span>Sin coincidencia para ese código. Verifica fecha, consolidado, y vuelve a escanear.</span></div>'
+          );
           return;
         }
-        rowData = res;
-        pararCamara(function() {
-          mostrarPantallaEntradaProducto();
-        });
+        rowData = result;
+        st.innerHTML = '';
+        scannerBusy = false;
+        document.getElementById('scanActive').style.display = 'none';
+        document.getElementById('scanIdle').style.display = '';
+        mostrarPaso2();
       })
-      .catch(function() {
-        st.innerHTML = '<div style="color:var(--red);font-size:12px;margin-top:6px;">Error de conexión.</div>';
+      .catch(function (e) {
+        if (btnManual) btnManual.disabled = false;
+        console.error(e);
+        manejarBusquedaFallida(
+          '<div class="error-card">' +
+          '<i class="ti ti-wifi-off" style="font-size:18px;flex-shrink:0"></i>' +
+          '<span>Error de conexión. Verifica tu acceso a internet.</span></div>'
+        );
       });
   }
 
-  function mostrarPantallaEntradaProducto() {
-    document.getElementById('secScan').style.display = 'none';
-    document.getElementById('secProduct').style.display = '';
-
-    document.getElementById('productoCard').innerHTML =
-      '<div class="producto-card">' +
-      '<div class="producto-nombre">' + rowData.producto + '</div>' +
-      '<div class="producto-meta"><span>EAN: ' + rowData.ean + '</span><span>Fila: ' + rowData.fila + '</span></div>' +
-      '</div>';
-
+  /* ── Mostrar paso 2 (cantidad) ── */
+  function mostrarPaso2() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = '';
     cantStr = '0';
     document.getElementById('cantDisplay').textContent = '0';
     document.getElementById('loteInput').value = '';
+
+    document.getElementById('productoCard').innerHTML =
+      '<div class="producto-card">' +
+      '<div class="producto-eyebrow"><i class="ti ti-circle-check" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Producto encontrado</div>' +
+      '<div class="producto-nombre">' + rowData.producto + '</div>' +
+      '<div class="producto-meta">' +
+      '<span><i class="ti ti-barcode" style="font-size:13px"></i>' + rowData.ean + '</span>' +
+      '<span><i class="ti ti-calendar" style="font-size:13px"></i>' + rowData.fecha + '</span>' +
+      '<span><i class="ti ti-list-numbers" style="font-size:13px"></i>Consol. ' + rowData.consolidado + '</span>' +
+      '</div></div>';
+
+    document.getElementById('statusBadges').innerHTML =
+      '<span class="badge badge-rev"><i class="ti ti-user" style="font-size:11px"></i>Revisor ' + revisor + '</span>' +
+      '<span class="badge badge-con"><i class="ti ti-list-numbers" style="font-size:11px"></i>Consolidado ' + consolidado + '</span>' +
+      '<span class="badge badge-fila"><i class="ti ti-row-insert-bottom" style="font-size:11px"></i>Fila ' + rowData.fila + '</span>';
+
     initSlide();
   }
 
-  function cancelarEntradaProducto() {
-    activarEscanerContinuo();
-  }
-
+  /* ── Numpad ── */
   function numPad(v) {
-    if (v === 'del') { cantStr = cantStr.length > 1 ? cantStr.slice(0, -1) : '0'; }
-    else { cantStr = (cantStr === '0') ? v : (cantStr.length < 6 ? cantStr + v : cantStr); }
-    document.getElementById('cantDisplay').textContent = parseInt(cantStr, 10).toLocaleString('es-CL');
+    if (v === 'del') {
+      cantStr = cantStr.length > 1 ? cantStr.slice(0, -1) : '0';
+    } else {
+      if (cantStr === '0') cantStr = v;
+      else if (cantStr.length < 7) cantStr += v;
+    }
+    document.getElementById('cantDisplay').textContent =
+      parseInt(cantStr, 10).toLocaleString('es-CL');
   }
 
-  /* Control del Deslizador */
+  /* ── Slide ── */
   var slideActive = false, slideStartX = 0, slideMaxX = 0;
 
   function initSlide() {
-    var wrap = document.getElementById('slideWrap');
+    // Clonar para eliminar listeners anteriores correctamente
+    var wrap    = document.getElementById('slideWrap');
+    var parent  = wrap.parentNode;
+    var nuevo   = wrap.cloneNode(true);
+    parent.replaceChild(nuevo, wrap);
+    wrap = document.getElementById('slideWrap'); // re-obtener referencia
+
     wrap.classList.remove('done');
     document.getElementById('slideTrack').style.width = '0%';
-    document.getElementById('slideThumb').style.left = '3px';
-    document.getElementById('slideText').textContent = 'Desliza para grabar →';
+    document.getElementById('slideThumb').style.left  = '3px';
+    document.getElementById('slideText').textContent  = 'Desliza para grabar →';
+    document.getElementById('slideText').className    = 'slide-text';
+    document.getElementById('slideIcon').className    = 'ti ti-chevrons-right';
+    document.getElementById('slideIcon').style.color  = 'var(--navy)';
     document.getElementById('grabarStatus').innerHTML = '';
 
-    wrap.onmousedown = onSlideStart;
-    wrap.ontouchstart = onSlideStart;
+    wrap.addEventListener('mousedown',  onSlideStart);
+    wrap.addEventListener('touchstart', onSlideStart, { passive: true });
   }
 
   function onSlideStart(e) {
-    slideActive = true;
     var wrap = document.getElementById('slideWrap');
-    slideMaxX = wrap.offsetWidth - 48;
+    if (wrap.classList.contains('done')) return;
+    slideActive = true;
+    slideMaxX   = wrap.offsetWidth - 48;
     slideStartX = e.touches ? e.touches[0].clientX : e.clientX;
-    document.onmousemove = onSlideMove;
-    document.ontouchmove = onSlideMove;
-    document.onmouseup = onSlideEnd;
-    document.ontouchend = onSlideEnd;
+    document.addEventListener('mousemove', onSlideMove);
+    document.addEventListener('mouseup',   onSlideEnd);
+    document.addEventListener('touchmove', onSlideMove, { passive: true });
+    document.addEventListener('touchend',  onSlideEnd);
   }
 
   function onSlideMove(e) {
     if (!slideActive) return;
-    var cx = e.touches ? e.touches[0].clientX : e.clientX;
+    var cx   = e.touches ? e.touches[0].clientX : e.clientX;
     var dist = Math.max(0, Math.min(cx - slideStartX, slideMaxX));
-    var pct = (dist / slideMaxX) * 100;
+    var pct  = (dist / slideMaxX) * 100;
     document.getElementById('slideTrack').style.width = pct + '%';
-    document.getElementById('slideThumb').style.left = (3 + dist) + 'px';
-    if (pct >= 95) onSlideEnd();
+    document.getElementById('slideThumb').style.left  = (3 + dist) + 'px';
+    document.getElementById('slideText').textContent  =
+      pct > 70 ? '¡Suelta para grabar!' : 'Desliza para grabar →';
+    if (pct >= 99) onSlideEnd(e);
   }
 
-  function onSlideEnd() {
+  function onSlideEnd(e) {
     if (!slideActive) return;
     slideActive = false;
-    document.onmousemove = null; document.ontouchmove = null;
-    document.onmouseup = null; document.ontouchend = null;
-
+    document.removeEventListener('mousemove', onSlideMove);
+    document.removeEventListener('mouseup',   onSlideEnd);
+    document.removeEventListener('touchmove', onSlideMove);
+    document.removeEventListener('touchend',  onSlideEnd);
     var pct = parseFloat(document.getElementById('slideTrack').style.width) || 0;
-    if (pct >= 85) {
+    if (pct >= 88) {
       confirmarGrabado();
     } else {
       document.getElementById('slideTrack').style.width = '0%';
-      document.getElementById('slideThumb').style.left = '3px';
+      document.getElementById('slideThumb').style.left  = '3px';
+      document.getElementById('slideText').textContent  = 'Desliza para grabar →';
     }
   }
 
+  /* ── Confirmar (compara col H) ── */
   function confirmarGrabado() {
     var cant = parseInt(cantStr, 10);
     if (cant === 0) {
-      alert('Ingresa una cantidad mayor a 0.');
+      alert('Ingresa una cantidad mayor a cero antes de grabar.');
       initSlide();
       return;
     }
     var cantSistema = parseInt(rowData.cantSistema, 10);
-    if (!isNaN(cantSistema) && cantSistema >= 0 && cant !== cantSistema) {
+    var haySistema  = !isNaN(cantSistema) && cantSistema >= 0;
+    if (haySistema && cant !== cantSistema) {
+      initSlide();
       document.getElementById('alertaOverlay').style.display = 'flex';
       return;
     }
@@ -663,7 +1214,6 @@
 
   function cerrarAlerta() {
     document.getElementById('alertaOverlay').style.display = 'none';
-    initSlide();
   }
 
   function grabarDeFuerza() {
@@ -672,27 +1222,182 @@
   }
 
   function ejecutarGrabado(cant) {
-    var st = document.getElementById('grabarStatus');
-    st.innerHTML = '<div class="loading-row"><div class="spinner"></div> Guardando en Google Sheets...</div>';
+    var wrap = document.getElementById('slideWrap');
+    wrap.classList.add('done');
+    document.getElementById('slideThumb').style.left  = 'calc(100% - 45px)';
+    document.getElementById('slideText').textContent  = 'Grabando…';
+    document.getElementById('slideText').className    = 'slide-text confirmed';
+    document.getElementById('slideIcon').className    = 'ti ti-check';
+    document.getElementById('slideIcon').style.color  = '#fff';
 
     var lote = document.getElementById('loteInput').value.trim();
-    var url = APPS_SCRIPT_URL + '?accion=grabar&fila=' + rowData.fila + '&cantidad=' + cant + '&revisor=' + revisor + '&lote=' + encodeURIComponent(lote);
+    var st   = document.getElementById('grabarStatus');
+    st.innerHTML = '<div class="loading-row"><div class="spinner"></div>Guardando en Google Sheets…</div>';
+
+    var url = APPS_SCRIPT_URL
+      + '?accion=grabar'
+      + '&fila='     + rowData.fila
+      + '&cantidad=' + cant
+      + '&revisor='  + revisor
+      + '&lote='     + encodeURIComponent(lote);
 
     fetch(url)
-      .then(function(r) { return r.json(); })
-      .then(function(res) {
-        var toast = document.getElementById('toastLastSaved');
-        toast.className = 'toast-exito';
-        toast.style.display = 'flex';
-        toast.innerHTML = '<i class="ti ti-check" style="font-size:18px"></i> <div><strong>¡Grabado con éxito!</strong><br>' + rowData.producto + ' (' + cant + ' unids)</div>';
-
-        activarEscanerContinuo();
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        st.innerHTML = '';
+        if (res.ok) {
+          mostrarExito(cant, lote);
+        } else {
+          st.innerHTML = '<div class="error-card"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0"></i><span>Error al grabar: ' + (res.error || 'desconocido') + '</span></div>';
+          wrap.classList.remove('done');
+          initSlide();
+        }
       })
-      .catch(function() {
-        st.innerHTML = '<div style="color:var(--red);font-size:12px;">Error al grabar. Intenta de nuevo.</div>';
+      .catch(function (err) {
+        st.innerHTML = '<div class="error-card"><i class="ti ti-wifi-off" style="font-size:18px;flex-shrink:0"></i><span>Error de conexión al grabar.</span></div>';
+        console.error(err);
+        wrap.classList.remove('done');
         initSlide();
       });
   }
+
+  /* ── Pantalla de éxito ── */
+  function mostrarExito(cant, lote) {
+    var cantSistema = parseInt(rowData.cantSistema, 10);
+    var hayDif = !isNaN(cantSistema) && cant !== cantSistema;
+
+    // Aviso breve (toast) — no interrumpe el ciclo, se cierra solo y
+    // continúa automáticamente escaneando el siguiente producto.
+    var previo = document.getElementById('toastExito');
+    if (previo && previo.parentNode) previo.parentNode.removeChild(previo);
+
+    var toast = document.createElement('div');
+    toast.id = 'toastExito';
+    toast.style.cssText =
+      'position:fixed;left:50%;bottom:22px;transform:translateX(-50%);' +
+      'background:' + (hayDif ? '#c97a00' : 'var(--green-mid)') + ';color:#fff;' +
+      'padding:12px 18px;border-radius:999px;font-size:13px;font-weight:600;' +
+      'box-shadow:0 6px 20px rgba(0,0,0,0.25);z-index:300;display:flex;' +
+      'align-items:center;gap:8px;max-width:92vw;text-align:center;';
+    toast.innerHTML =
+      '<i class="ti ti-' + (hayDif ? 'alert-triangle' : 'circle-check') + '" style="font-size:16px;flex-shrink:0"></i>' +
+      '<span>Grabado: ' + cant.toLocaleString('es-CL') + ' un.' +
+      (lote ? ' · Lote ' + lote : '') +
+      (hayDif ? ' (con diferencia)' : '') + '</span>';
+    document.body.appendChild(toast);
+
+    setTimeout(function () {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 1600);
+
+    setTimeout(function () {
+      continuarEscaneo();
+    }, 700);
+  }
+
+  /* ── Volver a buscar (mantiene revisor/fecha/consolidado/lote) ── */
+  function volverBuscar() {
+    rowData = null; cantStr = '0';
+    cerrarVistaEscaner();
+    document.getElementById('manualBox').style.display = 'none';
+    document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
+    var eanInput = document.getElementById('eanInput');
+    if (eanInput) eanInput.value = '';
+    document.getElementById('loteInput').value = '';
+    document.getElementById('buscarStatus').innerHTML = '';
+    document.getElementById('step2').style.display    = 'none';
+    document.getElementById('step1').style.display    = '';
+    checkReady();
+  }
+
+  /* ── Continúa el ciclo tras grabar: limpia el producto actual, vuelve
+     a mostrar el Paso 1 (revisor/fecha/consolidado siguen intactos) y
+     reinicia la cámara automáticamente para el siguiente producto. ── */
+  function continuarEscaneo() {
+    rowData = null; cantStr = '0';
+    document.getElementById('manualBox').style.display = 'none';
+    document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
+    var eanInput = document.getElementById('eanInput');
+    if (eanInput) eanInput.value = '';
+    document.getElementById('loteInput').value        = '';
+    document.getElementById('buscarStatus').innerHTML = '';
+    document.getElementById('step2').style.display    = 'none';
+    document.getElementById('step3').style.display    = 'none';
+    document.getElementById('step1').style.display    = '';
+    checkReady();
+    iniciarEscaneo(); // continúa leyendo automáticamente el siguiente producto
+  }
+
+  /* ── Botón Salir: termina la sesión y libera el revisor ── */
+  function confirmarSalir() {
+    if (!getMiRevisor() && !revisor) return;
+    var ok = confirm('¿Salir y liberar tu revisor? Se perderá la selección actual (revisor, fecha y consolidado).');
+    if (ok) resetApp();
+  }
+
+  /* ── Reset completo → libera revisor en servidor ── */
+  function resetApp() {
+    var miRev = getMiRevisor();
+    olvidarMiRevisor();
+    cerrarVistaEscaner();
+    revisor = null; consolidado = null; rowData = null; cantStr = '0';
+    document.querySelectorAll('.con-btn').forEach(function (b) { b.classList.remove('active'); });
+    document.getElementById('fechaInput').value       = '';
+    var eanInput = document.getElementById('eanInput');
+    if (eanInput) eanInput.value = '';
+    document.getElementById('manualBox').style.display = 'none';
+    document.getElementById('btnToggleManual').textContent = '¿Problemas con la cámara? Ingresar manualmente';
+    document.getElementById('loteInput').value        = '';
+    document.getElementById('buscarStatus').innerHTML = '';
+    document.getElementById('step1').style.display    = '';
+    document.getElementById('step2').style.display    = 'none';
+    document.getElementById('step3').style.display    = 'none';
+    var hoy = new Date();
+    document.getElementById('fechaInput').value =
+      hoy.getFullYear() + '-' +
+      String(hoy.getMonth()+1).padStart(2,'0') + '-' +
+      String(hoy.getDate()).padStart(2,'0');
+
+    // Liberar en servidor si tenía uno asignado
+    if (miRev) {
+      for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
+      document.getElementById('revAviso').style.display = 'flex';
+      document.getElementById('revAvisoTxt').textContent = 'Liberando revisor…';
+      fetch(APPS_SCRIPT_URL + '?accion=liberarRev&revisor=' + miRev)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          revisoresOcupados = res.ocupados || [];
+          pintarBotonesRevisor(revisoresOcupados, null);
+          checkReady();
+        })
+        .catch(function() {
+          pintarBotonesRevisor([], null);
+          checkReady();
+        });
+    } else {
+      cargarEstadoRevisores(function(ocupados) {
+        pintarBotonesRevisor(ocupados, null);
+        checkReady();
+      });
+    }
+  }
 </script>
+<!-- ══════════ MODAL ALERTA DIFERENCIA ══════════ -->
+<div class="alerta-overlay" id="alertaOverlay" style="display:none;">
+  <div class="alerta-modal">
+    <div class="alerta-icon"><i class="ti ti-alert-triangle"></i></div>
+    <div class="alerta-titulo">⚠ Verificar Cantidad…</div>
+    <div class="alerta-sub">La cantidad ingresada <strong>no coincide</strong> con lo registrado en el sistema.<br>Por favor verifica tu conteo antes de confirmar.</div>
+    <div class="alerta-btns">
+      <button class="btn-alerta-corregir" onclick="cerrarAlerta()">
+        <i class="ti ti-edit" style="font-size:16px"></i>Corregir cantidad
+      </button>
+      <button class="btn-alerta-confirmar" onclick="grabarDeFuerza()">
+        <i class="ti ti-check" style="font-size:16px"></i>Confirmar y grabar igual
+      </button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
