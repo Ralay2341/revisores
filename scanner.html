@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Revisión de Consolidado — ALM9037</title>
+  <title>Revisión de Inventario — ALM9037</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -508,12 +508,12 @@
     .btn-alerta-corregir:hover  { background: var(--border); }
     .btn-alerta-confirmar:hover { background: #b36c00; }
 
-    .rev-btn.bloqueado {
+    .rev-btn.bloqueado, .con-btn.bloqueado {
       opacity: 0.35;
       cursor: not-allowed;
       border-style: dashed;
     }
-    .rev-btn.bloqueado:hover { border-color: var(--border); color: var(--text2); }
+    .rev-btn.bloqueado:hover, .con-btn.bloqueado:hover { border-color: var(--border); color: var(--text2); }
     .rev-aviso {
       font-size: 11px; color: var(--amber); margin-top: 8px;
       display: flex; align-items: center; gap: 5px;
@@ -547,8 +547,8 @@
   <div class="header">
     <div class="header-icon"><i class="ti ti-clipboard-check"></i></div>
     <div style="flex:1;min-width:0;">
-      <div class="header-title">Revisión de Consolidado — ALM9037</div>
-      <div class="header-sub">Conteo y verificación </div>
+      <div class="header-title">Revisión de Inventario — ALM9037</div>
+      <div class="header-sub">Conteo y verificación por consolidado</div>
       <div class="header-sub">Propiedad de Raúl Layseca B. (Ley 17.336)</div>
     </div>
     <button class="btn-salir-header" id="btnSalir" onclick="confirmarSalir()">
@@ -580,19 +580,19 @@
       <div class="grid-2">
         <div class="field">
           <label>Fecha a procesar</label>
-          <input type="date" id="fechaInput" oninput="checkReady()" />
+          <input type="date" id="fechaInput" oninput="onFechaChange()" />
         </div>
         <div class="field">
           <label>Consolidado</label>
           <div class="consol-grid">
-            <button class="con-btn" onclick="selCon(1)">1</button>
-            <button class="con-btn" onclick="selCon(2)">2</button>
-            <button class="con-btn" onclick="selCon(3)">3</button>
+            <button class="con-btn" id="cbtn1" onclick="selCon(1)" disabled>1</button>
+            <button class="con-btn" id="cbtn2" onclick="selCon(2)" disabled>2</button>
+            <button class="con-btn" id="cbtn3" onclick="selCon(3)" disabled>3</button>
           </div>
         </div>
       </div>
       <div class="rev-aviso" id="conAviso" style="display:none;">
-        <i class="ti ti-alert-triangle" style="font-size:13px"></i><span id="conAvisoTxt"></span>
+        <i class="ti ti-lock" style="font-size:13px"></i><span id="conAvisoTxt"></span>
       </div>
     </div>
 
@@ -700,11 +700,13 @@
 
 <script>
   /* ── URL Apps Script ── */
-  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuhJL9uLFtIM3KKafHYd3vhDSWKlLAVyBe45Lu_pBZV1hE5U4cnIssn2yXE91-xvMOog/exec';
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIeRhUh9qSHaPTeTHlzRn8mMnUcz_U2A2eB5TIBFMvAHK7A0YZYmmyAu0mOWD7K-piww/exec';
 
   /* ── Estado ── */
   var revisor = null, consolidado = null, rowData = null, cantStr = '0';
-  var revisoresOcupados = []; // array con los números bloqueados en Sheets
+  var revisoresOcupados = [];    // array con los números de revisor bloqueados en Sheets
+  var consolidadosOcupados = []; // array con los consolidados bloqueados para la fecha actual
+  var consolidadoBloqueando = false; // evita doble clic mientras se consulta/bloquea
 
   /* ── Estado del escáner de cámara ── */
   var html5QrCode = null;
@@ -784,6 +786,7 @@
     var mm   = String(hoy.getMonth() + 1).padStart(2, '0');
     var yyyy = hoy.getFullYear();
     document.getElementById('fechaInput').value = yyyy + '-' + mm + '-' + dd;
+    onFechaChange(); // consulta disponibilidad de consolidado para la fecha de hoy
 
     var miRev = getMiRevisor();
     if (miRev) revisor = miRev;
@@ -855,24 +858,123 @@
       });
   }
 
-  /* ── Selección consolidado ──
-     Nota: esto NO consulta el servidor (no hay verificación real de
-     disponibilidad). Solo muestra un recordatorio para que el revisor
-     confirme manualmente que nadie más está trabajando ese consolidado. ── */
-  function selCon(n) {
-    consolidado = n;
-    document.querySelectorAll('.con-btn').forEach(function (b, i) {
-      b.classList.toggle('active', i + 1 === n);
-    });
+  /* ══════════════════════════════════════════
+     BLOQUEO DE CONSOLIDADO — compartido vía Sheets
+     La clave es Fecha + Número (1-3), porque el mismo
+     número se repite cada día. Al cambiar la fecha se
+     libera lo que tenías tomado y se vuelve a consultar
+     disponibilidad para la nueva fecha.
+  ══════════════════════════════════════════ */
+  var miConsolidadoFecha = null; // fecha (ISO, del input) para la que tengo el consolidado tomado
 
+  function pintarBotonesConsolidado(ocupados, miNum) {
+    for (var i = 1; i <= 3; i++) {
+      var btn = document.getElementById('cbtn' + i);
+      btn.classList.remove('active', 'bloqueado');
+      var esMio   = (miNum === i);
+      var ocupado = (ocupados.indexOf(i) !== -1);
+      if (esMio) {
+        btn.classList.add('active');
+        btn.disabled = false;
+      } else if (ocupado) {
+        btn.classList.add('bloqueado');
+        btn.disabled = true;
+      } else {
+        btn.disabled = false;
+      }
+    }
     var aviso = document.getElementById('conAviso');
-    if (aviso) {
+    if (miNum) {
       aviso.style.display = 'flex';
       document.getElementById('conAvisoTxt').textContent =
-        'Confirma con el equipo que nadie más esté trabajando el Consolidado ' + n + ' en esta fecha.';
+        'Consolidado ' + miNum + ' asignado. Se libera al presionar "Salir".';
+    } else {
+      aviso.style.display = 'none';
+    }
+  }
+
+  function cargarEstadoConsolidados(fechaISO, callback) {
+    if (!fechaISO) { callback([]); return; }
+    fetch(APPS_SCRIPT_URL + '?accion=estadoConsolidados&fecha=' + encodeURIComponent(fmt(fechaISO)))
+      .then(function (r) { return r.json(); })
+      .then(function (res) { callback(res.ocupados || []); })
+      .catch(function () { callback([]); });
+  }
+
+  /* Libera en el servidor (sin bloquear la UI a la espera de respuesta) */
+  function liberarConsolidadoServidor(fechaISO, n) {
+    if (!fechaISO || !n) return;
+    fetch(APPS_SCRIPT_URL + '?accion=liberarCon&fecha=' + encodeURIComponent(fmt(fechaISO)) + '&consolidado=' + n)
+      .catch(function () {});
+  }
+
+  /* Se llama cuando cambia la fecha: la selección de consolidado ya
+     no es válida para la nueva fecha, se libera la anterior (si había)
+     y se consulta disponibilidad para la nueva. */
+  function onFechaChange() {
+    var fechaNueva = document.getElementById('fechaInput').value;
+
+    if (consolidado && miConsolidadoFecha && miConsolidadoFecha !== fechaNueva) {
+      liberarConsolidadoServidor(miConsolidadoFecha, consolidado);
+    }
+    consolidado = null;
+    miConsolidadoFecha = null;
+
+    for (var i = 1; i <= 3; i++) {
+      document.getElementById('cbtn' + i).classList.remove('active', 'bloqueado');
+      document.getElementById('cbtn' + i).disabled = true;
     }
 
-    checkReady();
+    if (!fechaNueva) {
+      consolidadosOcupados = [];
+      pintarBotonesConsolidado([], null);
+      checkReady();
+      return;
+    }
+
+    var aviso = document.getElementById('conAviso');
+    aviso.style.display = 'flex';
+    document.getElementById('conAvisoTxt').textContent = 'Consultando disponibilidad…';
+
+    cargarEstadoConsolidados(fechaNueva, function (ocupados) {
+      consolidadosOcupados = ocupados;
+      pintarBotonesConsolidado(ocupados, null);
+      checkReady();
+    });
+  }
+
+  /* ── Selección consolidado (bloqueo real vía servidor, mismo patrón que Revisor) ── */
+  function selCon(n) {
+    var fecha = document.getElementById('fechaInput').value;
+    if (!fecha) return;
+    if (consolidadoBloqueando) return;
+    if (consolidado === n) return; // ya es mío, nada que hacer
+    if (consolidadosOcupados.indexOf(n) !== -1) return; // ocupado (botón ya deshabilitado)
+
+    consolidadoBloqueando = true;
+    for (var i = 1; i <= 3; i++) document.getElementById('cbtn' + i).disabled = true;
+
+    fetch(APPS_SCRIPT_URL + '?accion=bloquearCon&fecha=' + encodeURIComponent(fmt(fecha)) + '&consolidado=' + n)
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        consolidadoBloqueando = false;
+        if (res.ok) {
+          consolidado = n;
+          miConsolidadoFecha = fecha;
+          consolidadosOcupados = res.ocupados || [];
+          pintarBotonesConsolidado(consolidadosOcupados, n);
+        } else {
+          consolidadosOcupados = res.ocupados || [];
+          pintarBotonesConsolidado(consolidadosOcupados, consolidado);
+          alert('El Consolidado ' + n + ' acaba de ser tomado por otra persona en esa fecha. Elige otro.');
+        }
+        checkReady();
+      })
+      .catch(function () {
+        consolidadoBloqueando = false;
+        for (var i = 1; i <= 3; i++) document.getElementById('cbtn' + i).disabled = false;
+        alert('Error de conexión. Intenta nuevamente.');
+      });
   }
 
   /* ── Habilitar cámara / botón manual ── */
@@ -1352,10 +1454,12 @@
   /* ── Reset completo → libera revisor en servidor ── */
   function resetApp() {
     var miRev = getMiRevisor();
+    var conPrevio = consolidado;
+    var fechaConPrevia = miConsolidadoFecha;
     olvidarMiRevisor();
     cerrarVistaEscaner();
     revisor = null; consolidado = null; rowData = null; cantStr = '0';
-    document.querySelectorAll('.con-btn').forEach(function (b) { b.classList.remove('active'); });
+    miConsolidadoFecha = null;
     document.getElementById('fechaInput').value       = '';
     var eanInput = document.getElementById('eanInput');
     if (eanInput) eanInput.value = '';
@@ -1372,7 +1476,13 @@
       String(hoy.getMonth()+1).padStart(2,'0') + '-' +
       String(hoy.getDate()).padStart(2,'0');
 
-    // Liberar en servidor si tenía uno asignado
+    // Liberar consolidado en servidor si tenía uno asignado
+    if (conPrevio && fechaConPrevia) {
+      liberarConsolidadoServidor(fechaConPrevia, conPrevio);
+    }
+    onFechaChange(); // refresca disponibilidad de consolidado para la fecha reiniciada (hoy)
+
+    // Liberar revisor en servidor si tenía uno asignado
     if (miRev) {
       for (var i = 1; i <= 6; i++) document.getElementById('rbtn' + i).disabled = true;
       document.getElementById('revAviso').style.display = 'flex';
