@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Revisión de Consolidado — ALM9037</title>
+  <title>Revisión de Inventario — ALM9037</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,7 +44,7 @@
 
     .app { width: 100%; max-width: 480px; }
 
-    /* ── Header Principal ── */
+    /* Header Principal */
     .header {
       background: var(--navy);
       border-radius: var(--radius-lg);
@@ -66,7 +65,7 @@
     .header-title { font-size: 15px; font-weight: 600; color: #fff; }
     .header-sub   { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
 
-    /* ── Barra de Sesión Activa ── */
+    /* Barra de Sesión Activa */
     .session-bar {
       background: #102a45;
       color: #fff;
@@ -101,7 +100,7 @@
     }
     .btn-salir:active { opacity: 0.8; }
 
-    /* ── Card General ── */
+    /* Cards y Formulario */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -118,7 +117,6 @@
       margin-bottom: 10px;
     }
 
-    /* ── Revisor Grid ── */
     .revisor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .rev-btn {
       border: 1px solid var(--border);
@@ -179,18 +177,18 @@
     }
     .btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ── Escáner e Ingreso ── */
+    /* Escáner */
     #qr-reader { width: 100%; border-radius: var(--radius-md); overflow: hidden; background: #000; min-height: 200px; }
     
     .ean-row { display: flex; gap: 8px; margin-top: 10px; }
     .ean-row input {
-      font-size: 20px;
+      font-size: 16px;
       font-family: monospace;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.05em;
       text-align: center;
     }
 
-    /* ── Toast de Éxito Flotante ── */
+    /* Toast de Éxito */
     .toast-exito {
       background: var(--green-light);
       border: 1px solid #9fe1cb;
@@ -206,7 +204,7 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ── Producto Encontrado ── */
+    /* Producto */
     .producto-card {
       background: var(--navy-light);
       border: 1px solid #c0d8f3;
@@ -217,7 +215,7 @@
     .producto-nombre { font-size: 15px; font-weight: 700; color: var(--navy); }
     .producto-meta { font-size: 12px; color: var(--text2); margin-top: 4px; display: flex; gap: 10px; }
 
-    /* ── Numpad ── */
+    /* Numpad */
     .cantidad-display {
       font-size: 36px;
       font-weight: 700;
@@ -240,7 +238,7 @@
     }
     .num-btn.cero { grid-column: span 2; }
 
-    /* ── Deslizador ── */
+    /* Deslizador */
     .slide-wrap {
       position: relative;
       height: 48px;
@@ -263,7 +261,7 @@
       font-size: 13px; font-weight: 600; color: var(--text2); pointer-events: none; z-index: 1;
     }
 
-    /* ── Modal Alerta para Diferencias ── */
+    /* Modal Alerta */
     .alerta-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       display: flex; align-items: center; justify-content: center; z-index: 300; padding: 16px;
@@ -281,7 +279,7 @@
 
 <div class="app">
 
-  <!-- Header Superior -->
+  <!-- Header -->
   <div class="header">
     <div class="header-icon"><i class="ti ti-clipboard-check"></i></div>
     <div>
@@ -290,7 +288,7 @@
     </div>
   </div>
 
-  <!-- BARRA DE SESIÓN ACTIVA (Con Botón SALIR) -->
+  <!-- Barra de Sesión Activa (Con Botón SALIR) -->
   <div class="session-bar" id="sessionBar" style="display:none;">
     <div class="session-info">
       <span class="session-tag" id="sTagRev">Rev: -</span>
@@ -302,7 +300,7 @@
     </button>
   </div>
 
-  <!-- VISTA 1: CONFIGURACIÓN DE INICIO (Muestra Selección de Revisor, Fecha y Consolidado) -->
+  <!-- VISTA 1: CONFIGURACIÓN -->
   <div id="viewSetup">
     <div class="card">
       <div class="section-label">Paso 1 — Selecciona tu número de revisor</div>
@@ -339,7 +337,7 @@
     </div>
   </div>
 
-  <!-- VISTA 2: TRABAJO CONTINUO (Escaneo, Conteo y Grabación) -->
+  <!-- VISTA 2: TRABAJO CONTINUO -->
   <div id="viewWork" style="display:none;">
 
     <!-- Toast con último producto grabado -->
@@ -354,7 +352,7 @@
       </div>
 
       <div class="ean-row">
-        <input type="tel" id="eanInput" maxlength="5" placeholder="EAN (5 dígitos)"
+        <input type="tel" id="eanInput" maxlength="14" placeholder="EAN Completo"
                oninput="this.value=this.value.replace(/\D/g,''); checkEanLength()" />
         <button class="btn-main" id="btnBuscarManual" style="margin:0; width:110px;" onclick="buscarEAN(document.getElementById('eanInput').value)" disabled>
           Buscar
@@ -369,7 +367,7 @@
 
       <div class="field" style="margin-bottom:10px;">
         <label>Lote (opcional)</label>
-        <input type="text" id="loteInput" maxlength="5" placeholder="_ _ _ _ _"
+        <input type="text" id="loteInput" maxlength="10" placeholder="_ _ _ _ _"
                oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" />
       </div>
 
@@ -406,7 +404,7 @@
 
 </div>
 
-<!-- Modal Alerta para diferencias de stock -->
+<!-- Modal Alerta para Diferencias -->
 <div class="alerta-overlay" id="alertaOverlay" style="display:none;">
   <div class="alerta-modal">
     <div style="font-size:32px;color:#c97a00;margin-bottom:6px;"><i class="ti ti-alert-triangle"></i></div>
@@ -422,6 +420,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 <script>
+  // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
   var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuhJL9uLFtIM3KKafHYd3vhDSWKlLAVyBe45Lu_pBZV1hE5U4cnIssn2yXE91-xvMOog/exec';
 
   var revisor = null, consolidado = null, rowData = null, cantStr = '0';
@@ -468,7 +467,6 @@
     document.getElementById('btnIniciarSesion').disabled = !(revisor && consolidado && fecha);
   }
 
-  /* ── INICIAR SESIÓN DE TRABAJO ── */
   function iniciarSesionWork() {
     fetch(APPS_SCRIPT_URL + '?accion=bloquearRev&revisor=' + revisor)
       .then(function(r) { return r.json(); })
@@ -493,7 +491,6 @@
       });
   }
 
-  /* ── CERRAR SESIÓN Y LIBERAR REVISOR (BOTÓN SALIR) ── */
   function cerrarSesionWork() {
     if (!confirm('¿Seguro que deseas salir? Se liberará el Revisor ' + revisor + '.')) return;
 
@@ -515,7 +512,6 @@
     });
   }
 
-  /* ── ACTIVACIÓN Y DETENCIÓN SEGUIRA DE CÁMARA ── */
   function activarEscanerContinuo() {
     document.getElementById('secScan').style.display = '';
     document.getElementById('secProduct').style.display = 'none';
@@ -527,8 +523,8 @@
       html5QrCode = new Html5Qrcode('qr-reader');
       var config = { fps: 15, qrbox: { width: 260, height: 130 } };
       html5QrCode.start({ facingMode: 'environment' }, config, function(decoded) {
-        var ean5 = (decoded || '').replace(/\D/g, '').slice(-5);
-        if (ean5.length === 5) buscarEAN(ean5);
+        var eanCompleto = (decoded || '').replace(/\D/g, '').trim();
+        if (eanCompleto.length >= 8) buscarEAN(eanCompleto);
       }).catch(function() {
         document.getElementById('buscarStatus').innerHTML = '<div style="font-size:12px;color:var(--amber);margin-top:6px;">Cámara no disponible. Usa el ingreso manual.</div>';
       });
@@ -546,21 +542,21 @@
 
   function checkEanLength() {
     var v = document.getElementById('eanInput').value.trim();
-    document.getElementById('btnBuscarManual').disabled = (v.length !== 5);
+    document.getElementById('btnBuscarManual').disabled = (v.length < 8);
   }
 
-  function buscarEAN(ean5) {
+  function buscarEAN(ean) {
     var fecha = document.getElementById('fechaInput').value.split('-').reverse().join('/');
     var st = document.getElementById('buscarStatus');
     st.innerHTML = '<div class="loading-row"><div class="spinner"></div> Buscando EAN...</div>';
 
-    var url = APPS_SCRIPT_URL + '?accion=buscar&fecha=' + encodeURIComponent(fecha) + '&consolidado=' + consolidado + '&ean5=' + encodeURIComponent(ean5);
+    var url = APPS_SCRIPT_URL + '?accion=buscar&fecha=' + encodeURIComponent(fecha) + '&consolidado=' + consolidado + '&ean=' + encodeURIComponent(ean);
 
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(res) {
         if (!res || !res.encontrado) {
-          st.innerHTML = '<div style="color:var(--red);font-size:12px;margin-top:6px;">No se encontró el producto en el consolidado.</div>';
+          st.innerHTML = '<div style="color:var(--red);font-size:12px;margin-top:6px;">No se encontró el producto con ese EAN.</div>';
           return;
         }
         rowData = res;
@@ -599,7 +595,7 @@
     document.getElementById('cantDisplay').textContent = parseInt(cantStr, 10).toLocaleString('es-CL');
   }
 
-  /* ── CONTROL DEL DESLIZADOR ── */
+  /* Control del Deslizador */
   var slideActive = false, slideStartX = 0, slideMaxX = 0;
 
   function initSlide() {
@@ -685,13 +681,11 @@
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(res) {
-        // Notificación de éxito
         var toast = document.getElementById('toastLastSaved');
         toast.className = 'toast-exito';
         toast.style.display = 'flex';
         toast.innerHTML = '<i class="ti ti-check" style="font-size:18px"></i> <div><strong>¡Grabado con éxito!</strong><br>' + rowData.producto + ' (' + cant + ' unids)</div>';
 
-        // Regreso inmediato al escáner
         activarEscanerContinuo();
       })
       .catch(function() {
